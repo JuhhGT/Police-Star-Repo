@@ -61,8 +61,10 @@ execute (client, message, args) {
      .addField("<:identificador:882375276837883905> ID <:identificador:882375276837883905>", `${message.author.id}`, true)
      .addField("<:menciones_recientes:880835880170946630> Roles <:menciones_recientes:880835880170946630>", user.roles.cache.map(role => role.toString()).join(", "), true)
      .addField(":thinking: ¿Apodo? :thinking:", message.member.nickname ? message.member.nickname : "Sin apodo.", true)
-     .addField("<:boost_lvl8:880863123609907261> ¿Booster? <:boost_lvl8:880863123609907261>", member.premiumSince ? 'Si, boosteo.' : 'No, no boosteo.')
+     .addField("<:boost_lvl8:880863123609907261> ¿Booster? <:boost_lvl8:880863123609907261>", member.premiumSince ? 'Si, boosteo. <a:afirmativo:877943896947191819>' : 'No, no boosteo. <a:negativo:877943769083822111>')
      .setThumbnail(usuario.user.displayAvatarURL({ format: 'png', dynamic: 'true' }))
+     .setFooter(`Pedido por ${message.author.tag} a las`)
+     .setTimestamp()
      .setColor("WHITE")
      
      message.channel.send({ embeds: [embedinfo] })
