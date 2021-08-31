@@ -88,7 +88,7 @@ async execute (client, message, args){
   await channel.setRateLimitPerUser(toSecond)
     message.channel.send({
          embeds: [{
-              description: "<a:afirmativo:877943896947191819>┊El slowmode para este canal es de **${convert}** MS.",
+              description: `<a:afirmativo:877943896947191819>┊El modo slow para este canal es de **${convert}** MS.`,
               color: "GREEN"
          }]
     })

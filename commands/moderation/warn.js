@@ -82,7 +82,7 @@ const { MessageEmbed } = require('discord.js');
 
       warns.sumar(`${message.guild.id}.${persona.id}.warns`, 1)
 
-      const warn = new MessageEmbed
+      const warn = new Discord.MessageEmbed()
       .setTitle("AVISO")
       .setDescription(`Moderador: **${message.author.tag}**\n\nInfractor: **${persona.tag}**\n\nRazón: **${razon}**`)
       .setColor("GREEN")
@@ -92,4 +92,3 @@ const { MessageEmbed } = require('discord.js');
     }
      
       }
-     

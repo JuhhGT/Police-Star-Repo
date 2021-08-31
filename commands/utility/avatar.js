@@ -14,7 +14,7 @@ async execute (client, message, args){
     if(cooldown.has(message.author.id)){
         message.channel.send({
             embeds: [{
-              description: "<a:negativo:877943769083822111>┊**¡Calmate!** espera 3s para volver a usar este **comando.**",
+              description: "<a:negativo:877943769083822111>┊**¡Cálmate!** espera 3s para volver a usar este **comando.**",
               color: "RED"
             }]
           })
@@ -36,7 +36,7 @@ async execute (client, message, args){
      .setAuthor(`Avatar  de ${message.author.tag}`)
      .setImage(user.displayAvatarURL({ dynamic: true, size: 512 }))
      .setDescription(`:frame_photo: [PNG](${user.avatarURL({format: "png"})})┊:frame_photo: [JPG](${user.avatarURL({format: "jpg"})})┊:frame_photo: [WEBP](${user.avatarURL({format: 'webp'})})`)
-     .setFooter("Police Star")
+     .setFooter("Team Star | Police Star")
      message.channel.send({ embeds: [avatar] })
 
  }

@@ -55,14 +55,14 @@ execute (client, message, args) {
 
      const embedinfo = new MessageEmbed()
 
-     .setThumbnail(usuario.user.displayAvatarURL({ format: 'png', dynamic: 'true' }))
+     .setAuthor(usuario.user.username, usuario.user.displayAvatarURL({ dynamic: true }))
      .setDescription(`<:informacion:812066315040587776> | **Información de usuario.**`)
      .addField("<:usuario:880826682599178260> Nombre <:usuario:880826682599178260>", `${message.author.tag}`, true)
      .addField("<:identificador:882375276837883905> ID <:identificador:882375276837883905>", `${message.author.id}`, true)
      .addField("<:menciones_recientes:880835880170946630> Roles <:menciones_recientes:880835880170946630>", user.roles.cache.map(role => role.toString()).join(", "), true)
      .addField(":thinking: ¿Apodo? :thinking:", message.member.nickname ? message.member.nickname : "Sin apodo.", true)
      .addField("<:boost_lvl8:880863123609907261> ¿Booster? <:boost_lvl8:880863123609907261>", member.premiumSince ? 'Si, boosteo.' : 'No, no boosteo.')
-     .setAuthor(usuario.user.username, usuario.user.displayAvatarURL({ dynamic: true }))
+     .setThumbnail(usuario.user.displayAvatarURL({ format: 'png', dynamic: 'true' }))
      .setColor("WHITE")
      
      message.channel.send({ embeds: [embedinfo] })
