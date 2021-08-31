@@ -142,12 +142,21 @@ async execute (client, message, args){
             razon = 'No especificado.'
         }
 
-        const rechazado = new MessageEmbed()
+        const potenciado = new MessageEmbed()
+        .setTitle("Sugerencia en potencial.")
         .setDescription(`**Sugerencia:** ${contenido}`)
-        .setColor("ORANGE")
         .addField("Razón", `${razon}`)
         .setTimestamp()
         .setFooter(`Sugerencia gestionada por: ${message.author.tag}`, message.author.displayAvatarURL({ dynamic: true }))
+        .setColor("ORANGE")
+        sugerencias.edit({ embeds: [potenciado] })
+        sugerencias.reactions.removeAll()
+        message.channel.send({
+            embeds: [{
+                description: "<a:maybe:877943776855871518>┊La sugerencia ha sido tomada como **potencial.**",
+                color: "#ffc500"
+            }]
+        })
     }
 
  }

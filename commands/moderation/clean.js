@@ -34,38 +34,63 @@ async execute (client, message, args) {
               cooldown.delete(message.author.id);
           }, 3000);
 
-     if(!message.member.permissions.has("ADMINISTRATOR")){
+     message.delete();
+     let perms = message.member.permissions.has("ADMINISTRATOR")
+     if(!perms){
           return message.channel.send({
                embeds: [{
                     description: "<a:negativo:877943769083822111>┊No tienes permiso de usar este **comando.**",
                     color: "RED"
                }]
           })
-     } 
+     }
 
-     if(!message.guild.me.permissions.has("ADMINISTRATOR")){
+     if(!args[0]){
           return message.channel.send({
                embeds: [{
-                    description: "<a:negativo:877943769083822111>┊No tengo permisos suficientes para usar este **comando.**",
+                    description: "<a:negativo:877943769083822111>┊Ingresa una cantidad de mensajes a **borrar.**",
                     color: "RED"
                }]
           })
      }
 
-     if(!args[1] || (isNaN(args[1]) && !args[2])){
+     if(isNaN(args[0])){
           return message.channel.send({
                embeds: [{
-                    description: "<a:negativo:877943769083822111>┊Debes ingresar un número de mensajes a **borrar.**",
+                    description: "<a:negativo:877943769083822111>┊El número ingresado es **inválido.**",
                     color: "RED"
                }]
           })
      }
 
-     let number = args[2] ? parseInt(args[2]) : parseInt(args[1]);
-     if(!isNaN(number) && (numer <= 100) && (number >= 1)){
-          await message.delete();
+     if(args[0] < 1){
+          return message.channel.send({
+               embeds: [{
+                    description: "<a:negativo:877943769083822111>┊La cantidad minima de mensajes a borrar **1.**",
+                    color: "RED"
+               }]
+          })
      }
 
-} 
+     if(args[0] > 100){
+          return message.channel.send({
+               embeds: [{
+                    description: "<a:negativo:877943769083822111>┊No puedo borrar más de **100** mensajes.",
+                    color: "RED"
+               }]
+          })
+     }
 
+     message.channel.bulkDelete(args[0]).then(mensaje => {
+          let embed = new MessageEmbed()
+          .setDescription(`<a:afirmativo:877943896947191819>┊Se han borrado **${args[0]}** mensajes correctamente.`)
+          .setColor("GREEN")
+          .setTimestamp()
+          .setFooter(`${message.author.tag}`, `${message.author.displayAvatarURL({ dynamic: true })}`)
+          return message.channel
+          .send({ embeds: [embed] })
+          .then(msg => setTimeout(() => msg.delete(), 5000) )
+     });
+
+  } 
 } 
