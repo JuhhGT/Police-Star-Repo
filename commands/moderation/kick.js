@@ -103,7 +103,12 @@ async execute (client, message, args){
       .setTitle("Has sido sancionado.")
       .setColor("YELLOW")
       .setDescription(`<:advertencia:806249550956068875>┊Te han sancionado en el servidor \`**Team Star**\` con la siguiente razón: "${razon}".\n\n<a:comprendido:808108747997970481>┊Te aconsejamos leer las <#806239921018896394> para que evites este tipo de inconvenientes.`)
-      )
+      ).catch('error', (err) => message.channel.send({
+           embeds: [{
+                description: "<a:negativo:877943769083822111>┊Ha ocurrido un error al tratar de enviar un mensaje **directo** la persona expulsada.",
+                color: "RED"
+           }]
+      }))
       await user.kick(razon);
 
  }

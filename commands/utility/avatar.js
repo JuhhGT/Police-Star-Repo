@@ -29,7 +29,9 @@ async execute (client, message, args){
             cooldown.delete(message.author.id);
         }, 3000);
 
-     const user = message.mentions.users.first() || message.author
+    if(args[1]) return;
+
+     const user = message.mentions.users.first() || message.author;
 
      let avatar = new MessageEmbed()
      .setColor("RANDOM")
