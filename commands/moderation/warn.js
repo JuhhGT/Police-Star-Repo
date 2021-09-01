@@ -6,8 +6,8 @@ const { MessageEmbed } = require('discord.js');
      module.exports = {
        name: "warn", 
        alias: ["aviso"],
-       category: "Información",
-       usage: "Despliega un menú de ayuda para cada usuario.",
+       category: "Moderación",
+       usage: "",
      
      execute (client, message, args){
      

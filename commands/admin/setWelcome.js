@@ -1,17 +1,25 @@
 const Discord = require('discord.js');
 const { MessageEmbed } = require('discord.js');
-const db = require('megadb');
-const canalwlc = new db.crearDB("canalwlc");
+const megadb = require('megadb');
+const configwlc = new megadb.crearDB("Bienvenidas");
 
 const cooldown = new Set();
 
 module.exports = {
-  name: "", 
-  alias: [""],
-  category: "Información",
-  usage: "Despliega un menú de ayuda para cada usuario.",
+  name: "setwelcome", 
+  alias: ["canal-wlc"],
+  category: "Administracion",
+  usage: "Establece un canal de bienvenidas.",
 
-execute (client, message, args){
+  /**
+   * @param {Discord.Client} client 
+   * @param {Discord.Message}} message 
+   * @param {string[]} args 
+   */
+
+async execute (client, message, args){
+
+    message.delete()
 
     const cooldownem = new Discord.MessageEmbed()
     .setDescription("<a:negativo:877943769083822111>┊**¡Calmate!** espera 3s para volver a usar este **comando.**")
@@ -29,8 +37,36 @@ execute (client, message, args){
         cooldown.delete(message.author.id);
     }, 3000);
 
-    
+    var permisos = message.member.permissions.has("ADMINISTRATOR")
+    if(!permisos){
+        return message.channel.send({
+            embeds: [{
+                description: "<a:negativo:877943769083822111>┊No tienes permiso de usar este **comando.**",
+                color: "RED"
+            }]
+        })
+    }
+
+    let canal = message.mentions.channels.first()
+    if(!canal){
+        return message.channel.send({
+            embeds: [{
+                description: "<a:afirmativo:877943896947191819>┊Selecciona la **ID** del canal que deseas establecer.",
+                color: "RED"
+            }]
+        })
+    }
+
+    configwlc.set(`Co-${message.guild.id}`, canal.id)
+
+    await message.channel.send({
+        embeds: [{
+            description: `<a:afirmativo:877943896947191819>┊El canal para las bienvenidas a sido establecido exitosamente a ${canal}.`,
+            color: "GREEN"
+        }]
+    })
 
  }
 
 } 
+

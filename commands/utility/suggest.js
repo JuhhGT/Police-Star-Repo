@@ -10,8 +10,8 @@ const cooldown = new Set();
 module.exports = {
   name: "sugerir", 
   alias: ["suggest"], 
-  category: "Información",
-  usage: "Despliega un menú de ayuda para cada usuario.",
+  category: "Utilidad",
+  usage: "Sugiere cosas para el servidor.",
 
 async execute (client, message, args) {
 

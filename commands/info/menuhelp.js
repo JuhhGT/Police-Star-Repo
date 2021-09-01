@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 const { MessageEmbed, MessageButton } = require('discord.js');
+const db = require('megadb');
+const prefixes = new db.crearDB("prefixes");
 
 const cooldown = new Set();
 
@@ -9,7 +11,7 @@ module.exports = {
   category: "Información",
   usage: "Despliega un menú de ayuda para cada usuario.",
 
-async execute (client, message, args){
+async execute (client, message, args, prefix){
 
   const cooldownem = new Discord.MessageEmbed()
   .setDescription("<a:negativo:877943769083822111>┊**¡Cálmate!** espera 3s para volver a usar este **comando.**")
@@ -33,7 +35,7 @@ async execute (client, message, args){
   
   .setAuthor("Team Star┊Police Star", 'https://cdn.discordapp.com/attachments/848744297192751104/854834953434038302/b89c8fb332d74e787470e896fe1c73ee.png')
   .setTitle("Menú ayuda┊[Opcional] - <Obligatorio>")
-  .setDescription("<:naturaleza:880835881173393408>┊Bienvenido al apartado de ayuda principal de **Police Star**, si quieres informacion de un comando en especifico escribe: `p/help <Comando>`, en estos momentos estoy en mantenimiento pero para avanzar a los menús de soporte de cada sección dale click a los botones:")
+  .setDescription(`<:naturaleza:880835881173393408>┊Bienvenido al apartado de ayuda principal de **Police Star**, si quieres informacion de un comando en especifico escribe: \`${prefixes}help <Comando>\`, en estos momentos estoy en mantenimiento pero para avanzar a los menús de soporte de cada sección dale click a los botones:`)
   .addField("Información", "Mira la lista de comandos sobre la informacion útil del bot.")
   .addField("Moderación", "Dale un vistazo a algunos comandos de moderación.")
   .addField("Utilidad", "Mira los comandos útiles del bot, ya sea con algunos de mini-diversión.")

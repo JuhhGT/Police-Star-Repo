@@ -6,8 +6,8 @@ const cooldown = new Set();
 module.exports = {
   name: "user-info", 
   alias: ["info-usuario"], 
-  category: "Información",
-  usage: "Despliega un menú de ayuda para cada usuario.",
+  category: "Utilidad",
+  usage: "Muestra la informacion de cada usuario.",
 
   /**
    * @param {Discord.Client} client 

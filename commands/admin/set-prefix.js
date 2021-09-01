@@ -49,12 +49,14 @@ execute (client, message, args){
     })
   } 
 
+  if()
+
   prefixes.establecer(message.guild.id, args[0])
 
   message.channel.send({
     embeds: [{
-      description: `<a:afirmativo:877943896947191819>┊El prefix a sido cambiado exitosamente a ${args[0]}.`,
-      color: "RED"
+      description: `<a:afirmativo:877943896947191819>┊El prefix a sido cambiado exitosamente a \`${args[0]}\`.`,
+      color: "GREEN"
     }]
   })
  }

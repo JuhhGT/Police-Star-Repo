@@ -49,7 +49,7 @@ async execute (client, message, args){
         })
     }
 
-    const encuesta = args.join(' ').slice(22)
+    const encuesta = args.slice(1).join(' ')
     if(!encuesta){
         return message.channel.send({
             embeds: [{

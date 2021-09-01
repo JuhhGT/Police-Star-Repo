@@ -1,23 +1,39 @@
 const Discord = require('discord.js');
 const { MessageEmbed, MessageAttachment } = require('discord.js');
 const db = require('quick.db');
-const { CanvasSenpai } = require('canvas-senpai');
+const { CanvasSenpai } = require("canvas-senpai")
 const canva = new CanvasSenpai();
+const megadb = require('megadb');
+const configwlc = new megadb.crearDB("Bienvenidas");
 
-module.exports = async (client, member, message) => {
+module.exports = async (client, message, member, args) => {
 
-    let chx = db.get(`welchannel_${member.guild.id}`);
-    if(!chx) return;
-    let data = await canva.welcome(member, { link: "https://cdn.discordapp.com/attachments/806239916782649355/812436925674946592/welcum.png" })
+    if(!configwlc.tiene(message.guild.id)){
+        return message.channel.send({
+            embeds: [{
+                description: "<a:negativo:877943769083822111>┊Este servidor no tiene un canal de bienvenidas **establecido.**",
+                color: "RED"
+            }]
+        })
+    }
 
-    const attachment = new MessageAttachment(data, "imagen-bienvenidas.png");
-    client.channels.cache.get(chx).send({
-        embeds: [{
-            description: `<a:afirmativo:877943896947191819>┊¡El usuario **${member.user.username}** se ha unido al servidor!`,
-            color: "GREEN"
-        }],
-        
-        files: [attachment]
+    let channel = configwlc.obtener(`Co-${message.guild.id}`, canal.id)
+    if(!channel){
+        return
+    }
+
+    let data = await canva.welcome(member, { link: "https://cdn.discordapp.com/attachments/806239916782649355/812436925674946592/welcum.png", blur: true })
+    const atajo = new Discord.MessageAttachment(
+        data, 
+        "welcome.png"
+    );
+
+    channel.send({
+        content: `**¡Bienvenido al servidor!** ${member}`, 
+        files: [atajo]
     })
+
+
+
 
 } 

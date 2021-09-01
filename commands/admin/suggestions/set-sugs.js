@@ -16,7 +16,7 @@
         if(cooldown.has(message.author.id)){
           message.channel.send({
             embeds: [{
-              description: "<a:negativo:877943769083822111>┊**¡Calmate!** espera 3s para volver a usar este **comando.**",
+              description: "<a:negativo:877943769083822111>┊**¡Cálmate!** espera 3s para volver a usar este **comando.**",
               color: "RED"
             }]
           })
