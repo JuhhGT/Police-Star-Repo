@@ -16,10 +16,10 @@ module.exports = async (client, message) => {
     }
 
     const embedmencion = new MessageEmbed()
-    .setTitle(`¡Hola! ${message.author.username}.`)
-    .setDescription(`Soy **Police star** ando en matenimiento, mi prefix es \`p/\` y si necesitas ayuda usa \`p/menuhelp\`.`)
+    .setTitle(`¡Hola ${message.author.username}!`)
+    .setDescription(`Soy **Police star**, el bot oficial de Team Star. Mi prefix es \`p/\` y mi menu de ayuda: \`p/menuhelp\`.\nActualmente estoy en mantenimiento.\n**CEO/DIRECTOR**: Adrián#0001\n\n**Desarrolladores**: Yuzzwn#0001, luichi#0909, Dymidless#0001**`)
     .setTimestamp()
-    .setColor("WHITE")
+    .setColor("RANDOM")
    
     if(message.content.match(new RegExp(`^<@!?${client.user.id}>( |)$`))) {
         message.channel.send({ embeds: [embedmencion] })
@@ -33,6 +33,20 @@ module.exports = async (client, message) => {
 
     let cmd = client.commands.find((c) => c.name === command || c.alias && c.alias.includes(command));
     if(cmd){
+        if(!message.member.permissions.has(cmd.userPerms || [] )){
+            return message.channel.send({
+                embeds: [{
+                    description: "<a:negativo:877943769083822111>┊No tienes permiso de usar el **comando.**",
+                    color: "RED"
+                }]
+            })
+        }
+        if(!message.guild.me.permissions.has(cmd.botPerms || [])){
+            return message.channel.send({
+                description: "<a:negativo:877943769083822111>┊No tengo permisos para usar este **comando.**",
+                color: "RED"
+            })
+        }
     cmd.execute(client, message, args)
     }
 
@@ -40,7 +54,7 @@ module.exports = async (client, message) => {
     .setDescription(`<a:negativo:877943769083822111>┊El comando usado es **inexistente.**`)
     .setColor("RED")
 
-    const holapeo = new Discord.MessageEmbed()
+    const rco = new Discord.MessageEmbed()
     .setDescription("<a:negativo:877943769083822111>┊No escribas repetitivamente comandos **incorrectos.**")
     .setColor("RED")
     

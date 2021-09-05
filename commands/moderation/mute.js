@@ -99,11 +99,15 @@ async execute (client, message, args){
 
   const kickemb = new Discord.MessageEmbed();
     new MessageEmbed()
-    .setAuthor("Team Star | Police Star", "https://cdn.discordapp.com/attachments/848744297192751104/854834953434038302/b89c8fb332d74e787470e896fe1c73ee.png")
-    .setDescription(`<a:afirmativo:877943896947191819>┊${mencionado.user.tag} ha sido **muteado** por la siguiente razón: "${razon}"\n<a:staff:878711406332084224>┊**Moderador responsable:** ${message.author.tag}`)
-    .setColor("GREEN")
+    .setAuthor("Sanción", `${message.author.displayAvatarURL({ dynamic: true })}`)
+    .addField("Tipo:", `Muted`)
+    .addField("Infractor", `${mencionado.user.tag}`)
+    .addField("Razón:", `${razon}`)
+    .addField("Moderador:", `${message.author.tag}`)
+    .setColor("RED")
     .setTimestamp()
-    message.channel.send({ embeds: [kickemb] }) 
+
+    message.channel.send({ embeds: [mutemb] }) 
  
  }
 

@@ -53,9 +53,10 @@ async execute (client, message, args){
     }
 
     const embedito = new Discord.MessageEmbed()
-    .setTitle("Información de comandos")
-    .setColor("GREEN")
-    .setFooter('Pedido por: '+ message.author.tag)
+    .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))
+    .setColor("#c1a7ff")
+    .setFooter("Police Star help", client.user.displayAvatarURL({ format: "png" }))
+    .setDescription("Apartado de ayuda sobre **comandos,** escribe `p/help <Comando>`.")
     .setTimestamp()
 
     data.push({embeds: [embedito.addField(`**Nombre:**`, Command.name)]})
@@ -64,9 +65,10 @@ async execute (client, message, args){
     }
 
     data.push({embeds: [embedito.addField(`**Categoría:**`, Command.category || "Sin categoria.")]})
-    data.push({embeds: [embedito.addField(`**Uso:**`, Command.usage || "Sin descripcion.")]})
-    data.push({embeds: [embedito.addField(`**Cooldown:**`, Command.cooldown || "Sin cooldown.")]})
-    data.push({embeds: [embedito.addField(`**Ejemplos:**`, Command.example || "Sin ejemplos.")]})
+    data.push({embeds: [embedito.addField(`**Descripción:**`, Command.desc || "Sin descripcion.")]})
+    data.push({embeds: [embedito.addField(`**Uso:**`, Command.usage || "Sin descripcion de uso.")]})
+    data.push({embeds: [embedito.addField(`**Permisos requeridos:**`, Command.userPerms || "Todos los permisos.")]})
+    data.push({embeds: [embedito.addField(`**Permisos del bot:**`, Command.botPerms || "Sin permisos requeridos.")]})
 
     message.channel.send({data, embeds: [embedito], split: true})
 

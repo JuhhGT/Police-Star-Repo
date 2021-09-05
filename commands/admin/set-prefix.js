@@ -11,7 +11,7 @@ module.exports = {
   category: "Información",
   usage: "Despliega un menú de ayuda para cada usuario.",
 
-execute (client, message, args){
+async execute (client, message, args){
 
   if(cooldown.has(message.author.id)){
 
@@ -49,7 +49,16 @@ execute (client, message, args){
     })
   } 
 
-  if()
+  const prefix = await prefixes.obtener(message.guild.id)
+
+  if (args[0] == prefix){
+    return message.channel.send({
+      embeds: [{
+        description: "<a:negativo:877943769083822111>┊El prefix ingresado ya ha sido **establecido.**",
+        color: "RED"
+      }]
+    })
+  }
 
   prefixes.establecer(message.guild.id, args[0])
 

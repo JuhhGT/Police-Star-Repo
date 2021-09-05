@@ -1,14 +1,18 @@
 ﻿const Discord = require('discord.js');
-const client = new Discord.Client({ intents: 32767 })
+const client = new Discord.Client({ ws: { properties: { $browser: 'Discord Android' } }, intents: 32767 });
 const config = require('./config.json')
 const fs = require('fs');
 const { readdirSync } = require('fs');
 const { FILE } = require('dns');
 const { DiscordTogether } = require('discord-together');
 client.discordTogether = new DiscordTogether(client);
+
 //////////////////Snipes//////////////////////////
+
 client.snipes = new Map()
+
 ////////////////////Handler-1//////////////////////////////
+
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js')); 
 
@@ -19,8 +23,11 @@ const utilityFiles = fs.readdirSync('./commands/utility').filter(file => file.en
 const infoFiles = fs.readdirSync('./commands/info').filter(file => file.endsWith('.js'));
 
 const adminFiles = fs.readdirSync('./commands/admin').filter(file => file.endsWith('.js'));
+
 const suggestFiles = fs.readdirSync('./commands/admin/suggestions').filter(file => file.endsWith('.js'));
+
 ////////////////////////Handler-2/////////////////////////////
+
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     client.commands.set(command.name, command);
@@ -30,8 +37,6 @@ for (const file of moderationFiles) {
     const command = require(`./commands/moderation/${file}`);
     client.commands.set(command.name, command);
 }
-
-
 
 for (const file of utilityFiles) {
     const command = require(`./commands/utility/${file}`);
@@ -52,7 +57,9 @@ for (const file of suggestFiles) {
     const command = require(`./commands/admin/suggestions/${file}`);
     client.commands.set(command.name, command);
 }
+
 //////////////////////Handler-Eventos////////////////////////////////////
+
 for (const file of fs.readdirSync('./events/')) {
 
     if(file.endsWith(".js")){
@@ -64,5 +71,7 @@ for (const file of fs.readdirSync('./events/')) {
   
     }
   }
+
 /////////////////////////Token/////////////////////////////////////////
+
 client.login(config.token);

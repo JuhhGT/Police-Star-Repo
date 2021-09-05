@@ -9,7 +9,10 @@ module.exports = {
   name: "menuhelp", 
   alias: [],
   category: "Información",
-  usage: "Despliega un menú de ayuda para cada usuario.",
+  desc: "Despliega un menú de ayuda para cada usuario.",
+  usage: "`p/menuhelp`",
+  userPerms: "",
+  botPerms: "",
 
 async execute (client, message, args, prefix){
 

@@ -18,7 +18,7 @@ async execute (client, message, args){
             color: "RED"
           }]
         })
-    
+        
          return;
          
       }
@@ -51,7 +51,7 @@ async execute (client, message, args){
     if(!userID){
             message.channel.send({
                  embeds: [{
-                      description: "<a:negativo:877943769083822111>┊Debes escribir una ID",
+                      description: "<a:negativo:877943769083822111>┊Debes escribir una **ID.**",
                       color: "RED"
                  }]
             })
@@ -86,7 +86,6 @@ async execute (client, message, args){
                const unban = new Discord.MessageEmbed()
                .setDescription(`<a:afirmativo:877943896947191819>┊El usuario \`${member.tag}\` ha sido desbaneado **correctamente.**`)
                .setColor("GREEN")
-               .setFooter("Moderación de Police Star")
                .setTimestamp()
                message.channel.send({ embeds: [unban] })
           }

@@ -61,20 +61,15 @@ execute (client, message, args){
         }
 
     usuario.ban({ reason: razon });
-    //ta
-    // Pueden hacer user.ban({ reason: razon }) btw, thx! || 👍
 
     const banembed = new Discord.MessageEmbed()
     
-    .setAuthor(usuario.user.username, `${usuario.user.displayAvatarURL()}`)
-    .setDescription(`<:baneado:875731740981878796>┊${usuario.user.tag} ha sido **baneado** exitosamente.`)
-    .setThumbnail(`${usuario.user.displayAvatarURL({ dynamic: true })}`)
-    .addField("ID:", `${usuario.id}`)
+    .setAuthor("Sanción", `${message.author.displayAvatarURL({ dynamic: true })}`)
+    .addField("Tipo:", `Ban`)
+    .addField("Infractor:", `${mencionado.user.tag}`)
     .addField("Razón:", `${razon}`)
-    .addField("Responsable de la acción:", `${message.author.tag}`)
-    .setColor("BLUE")
-    .setTimestamp()
-    .setFooter("Moderacion Police Star", 'https://cdn.discordapp.com/attachments/848744297192751104/854834953434038302/b89c8fb332d74e787470e896fe1c73ee.png')
+    .addField("Moderador:", `${message.author.tag}`)
+    .setColor("RED")
 
     message.channel.send({ embeds: [banembed] })
 

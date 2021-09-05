@@ -29,6 +29,7 @@ async execute (client, message, args){
         }, 3000);
 
         const permsrol = message.member.roles.cache.has('806239706785775677') || message.member.roles.cache.has('806239705703120937') || message.member.roles.cache.has('878044578127679498') || message.member.roles.cache.has('878044578127679498')
+        let mencionado = message.mentions.members.first()
         if(!permsrol){
                 message.channel.send({
                      embeds: [{
@@ -82,34 +83,24 @@ async execute (client, message, args){
 }
   
   
+message.guild.member(user).kick(razon);
 
   var razon = args.slice(1).join(' ')
   if(!razon){
       razon = 'No especificada.'
   }
 
-     const kick = new Discord.MessageEmbed()
-      .setTitle("Usuario Expulsado.")
-      .setDescription(`<a:afirmativo:877943896947191819>┊${user} ha sido expulsado del servidor exitosamente.`)
-      .addField("Razón", `${razon}`)
-      .setFooter(`Responsable de la acción┊${message.author.username}`, message.author.displayAvatarURL())
-      .setColor("GREEN")
-      .setAuthor(user.user.tag, user.user.displayAvatarURL())
-      .setTimestamp()
-      message.channel.send({ embeds: [kick] })
+     const kicemb = new Discord.MessageEmbed()
+
+     .setAuthor("Sanción", `${message.author.displayAvatarURL({ dynamic: true })}`)
+     .addField("Tipo:", `Kick`)
+     .addField("Infractor:", `${mencionado.user.tag}`)
+     .addField("Razón:", `${razon}`)
+     .addField("Moderador:", `${message.author.tag}`) //Cerraré el PC.
+     .setColor("RED")
+
+      message.channel.send({ embeds: [kicemb] })
       
-      await user.user.send(
-      new MessageEmbed()
-      .setTitle("Has sido sancionado.")
-      .setColor("YELLOW")
-      .setDescription(`<:advertencia:806249550956068875>┊Te han sancionado en el servidor \`**Team Star**\` con la siguiente razón: "${razon}".\n\n<a:comprendido:808108747997970481>┊Te aconsejamos leer las <#806239921018896394> para que evites este tipo de inconvenientes.`)
-      ).catch('error', (err) => message.channel.send({
-           embeds: [{
-                description: "<a:negativo:877943769083822111>┊Ha ocurrido un error al tratar de enviar un mensaje **directo** la persona expulsada.",
-                color: "RED"
-           }]
-      }))
-      await user.kick(razon);
 
  }
 

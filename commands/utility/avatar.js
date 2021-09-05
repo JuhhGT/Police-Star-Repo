@@ -33,13 +33,14 @@ async execute (client, message, args){
 
      const user = message.mentions.users.first() || message.author;
 
-     let avatar = new MessageEmbed()
-     .setColor("RANDOM")
+     const avatar = new MessageEmbed()
      .setAuthor(`Avatar  de ${message.author.tag}`)
      .setImage(user.displayAvatarURL({ dynamic: true, size: 512 }))
-     .setDescription(`:frame_photo: [PNG](${user.avatarURL({format: "png"})})┊:frame_photo: [JPG](${user.avatarURL({format: "jpg"})})┊:frame_photo: [WEBP](${user.avatarURL({format: 'webp'})})`)
-     .setFooter("Team Star | Police Star")
+     .setDescription(`>:frame_photo: Formato de imagen :frame_photo:\n[PNG](${user.avatarURL({format: "png"})})\n[JPG](${user.avatarURL({format: "jpg"})})\n[WEBP](${user.avatarURL({format: 'webp'})})\n`)
+     .setFooter(`Pedido por: ${message.author.tag}`, `${message.author.displayAvatarURL({ dynamic: true })}`)
+     .setColor("RANDOM")
      message.channel.send({ embeds: [avatar] })
+
 
  }
 

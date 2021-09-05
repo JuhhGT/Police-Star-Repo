@@ -35,15 +35,15 @@ async execute (client, message, args){
     let segundos = Math.floor(client.uptime / 1000) %60;
 
     const uptime = new Discord.MessageEmbed()
+
     .setAuthor("Police Star", "https://cdn.discordapp.com/attachments/848744297192751104/854834953434038302/b89c8fb332d74e787470e896fe1c73ee.png")
-    .setColor("GREEN")
     .setTitle("Tiempo en línea")
     .setDescription(`<:reloj:880425813424615465> \`${dias} Días\` \`${horas} horas\` \`${minutos} minutos\` \`${segundos} segundos\``)
     .setTimestamp()
     .setFooter(`Solicitado por: ${message.author.username}`)
-    message.channel.send({
-        embeds: [uptime]
-    })
+    .setColor("GREEN")
+
+    message.channel.send({ embeds: [uptime] })
 
  }
 

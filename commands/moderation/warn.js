@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 const { MessageEmbed } = require('discord.js');
+const db = require('megadb')
+const warns = new db.crearDB('warns')
      
      const cooldown = new Set();
      
@@ -14,7 +16,7 @@ const { MessageEmbed } = require('discord.js');
       if(cooldown.has(message.author.id)){
         message.channel.send({
           embeds: [{
-            description: "<a:negativo:877943769083822111>┊**¡Calmate!** espera 3s para volver a usar este **comando.**",
+            description: "<a:negativo:877943769083822111>┊**¡Cálmate!** espera 3s para volver a usar este **comando.**",
             color: "RED"
           }]
         })
@@ -34,7 +36,7 @@ const { MessageEmbed } = require('discord.js');
          setTimeout(() => {
              cooldown.delete(message.author.id);
          }, 3000);
-     
+         let mencionado = message.mentions.members.first()
          const permsrol = message.member.roles.cache.has('806239706785775677') || message.member.roles.cache.has('806239705703120937') || message.member.roles.cache.has('878044578127679498') || message.member.roles.cache.has('878044578127679498')
          if(!permsrol) {
             message.channel.send({
@@ -83,11 +85,13 @@ const { MessageEmbed } = require('discord.js');
       warns.sumar(`${message.guild.id}.${persona.id}.warns`, 1)
 
       const warn = new Discord.MessageEmbed()
-      .setTitle("AVISO")
-      .setDescription(`Moderador: **${message.author.tag}**\n\nInfractor: **${persona.tag}**\n\nRazón: **${razon}**`)
-      .setColor("GREEN")
-      .setFooter("Police Star | Team Star")
-      .setTimestamp()
+
+      .setAuthor("Sanción", `${message.author.displayAvatarURL({ dynamic: true })}`)
+      .addField("Tipo:", `Warn`)
+      .addField("Infractor:", `${mencionado.user.tag}`)
+      .addField("Razón:", `${razon}`)
+      .addField("Moderador:", `${message.author.tag}`)
+      .setColor("RED")
       message.channel.send({ embeds: [warn] }) 
     }
      
