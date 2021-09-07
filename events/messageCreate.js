@@ -33,25 +33,11 @@ module.exports = async (client, message) => {
 
     let cmd = client.commands.find((c) => c.name === command || c.alias && c.alias.includes(command));
     if(cmd){
-        if(!message.member.permissions.has(cmd.userPerms || [] )){
-            return message.channel.send({
-                embeds: [{
-                    description: "<a:negativo:877943769083822111>┊No tienes permiso de usar el **comando.**",
-                    color: "RED"
-                }]
-            })
-        }
-        if(!message.guild.me.permissions.has(cmd.botPerms || [])){
-            return message.channel.send({
-                description: "<a:negativo:877943769083822111>┊No tengo permisos para usar este **comando.**",
-                color: "RED"
-            })
-        }
     cmd.execute(client, message, args)
     }
 
     const embederr = new Discord.MessageEmbed()
-    .setDescription(`<a:negativo:877943769083822111>┊El comando usado es **inexistente.**`)
+    .setDescription(`<a:negativo:877943769083822111>┊El comando **${command}** no es un comando **existente.**`)
     .setColor("RED")
 
     const rco = new Discord.MessageEmbed()
@@ -75,10 +61,10 @@ module.exports = async (client, message) => {
     
         setTimeout(() => {
             cooldown.delete(message.author.id);
-        }, 3000);
+        }, 3000);   
 
         message.channel.send({ embeds: [embederr] })
 
   }
 
-} 
+}

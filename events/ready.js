@@ -6,7 +6,7 @@ module.exports = (client) => {
 
      client.user.setPresence({
           activities: [{
-            name: 'Mantenimiento',
+            name: 'MD para quejas, dudas y reportes.',
             type: 'WATCHING'
           }]
         });

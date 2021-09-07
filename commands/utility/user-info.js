@@ -84,7 +84,7 @@ async execute (client, message, args) {
      .addField("<:usuario:880826682599178260> **Nombre**", `${message.author.tag}`)
      .addField("<:identificador:882375276837883905> **Identificador**", `${message.author.id}`)
      .addField(`<:roles:882393604604174337> **Roles**`, usuario.roles.cache.map(role => role.toString()).join(", "))
-     .addField(":thinking: **¿Apodo?**", message.member.nickname ? message.member.nickname : "Sin apodo.")
+     .addField(":thinking: **¿Apodo?**", usuario.nickname || "Sin apodo.")
      .addField("<:boost_lvl8:880863123609907261> **¿Booster?**", usuario.premiumSince ? 'Si, boosteo. <a:afirmativo:877943896947191819>' : 'No, no boosteo. <a:negativo:877943769083822111>')
      .addField(`${status2} **Estados**`, status)
      .addField(`<:SI:867176571537588264> **Unión al servidor**`, formatDate('DD/MM/YYYY, A las HH:mm:ss', usuario.joinedAt))

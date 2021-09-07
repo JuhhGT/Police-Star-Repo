@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js'); 
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 const cooldown = new Set();
 
@@ -9,7 +10,11 @@ module.exports = {
   category: "Utilidad",
   usage: "Muestra el ping en MS del bot.",
 
-execute (client, message, args) {
+  data: new SlashCommandBuilder()
+  .setName("test")
+  .setDescription("Comando de slash ping"),
+
+execute (client, message, args, interaction) {
 
   if(cooldown.has(message.author.id)){
     message.channel.send({
@@ -32,11 +37,12 @@ execute (client, message, args) {
     const usuarioma = message.author;
 
     const ping = new Discord.MessageEmbed()
-    .setAuthor("Team Star┊Police Star", 'https://cdn.discordapp.com/avatars/872207610747703377/5c9a8dce66ebb31e2a9bf3361dfa2c8f.png?size=1024')
-    .setDescription(`<a:comprendido:808108747997970481> ┊ Ping del bot: **${client.ws.ping}.**`)
+    
+    .setAuthor("Police Star", 'https://cdn.discordapp.com/avatars/872207610747703377/5c9a8dce66ebb31e2a9bf3361dfa2c8f.png?size=1024')
+    .setDescription(`<a:comprendido:808108747997970481>┊Ping del bot: **${client.ws.ping}.**\n\n<a:comprendido:808108747997970481>┊Discord API: **${Date.now() - message.createdTimestamp}ms**`)
+    .setFooter(`Pedido por: ${message.author.tag}`, `${message.author.displayAvatarURL({ dynamic: true })}`)
     .setColor("GREEN")
-    .setTimestamp()
-    .setFooter("Solicitado por:", usuarioma.displayAvatarURL({ dynamic: true }))
+
     message.channel.send({ embeds: [ping] })
      
 }

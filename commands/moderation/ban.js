@@ -9,7 +9,7 @@ module.exports = {
   category: "Información",
   usage: "Despliega un menú de ayuda para cada usuario.",
 
-execute (client, message, args){
+async execute (client, message, args){
 
     if(cooldown.has(message.author.id)){
         message.channel.send({
@@ -29,7 +29,7 @@ execute (client, message, args){
         cooldown.delete(message.author.id);
     }, 3000);
 
-    let usuario = message.mentions.members.first();
+    let usuario = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(m => m.user.username.toLowerCase() == args[0]) || await client.users.fetch(args[0])
     if(!usuario){
         message.channel.send({
             embeds: [{
