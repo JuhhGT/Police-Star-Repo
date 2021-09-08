@@ -1,18 +1,22 @@
 const Discord = require('discord.js');
+const Discord = require('discord.js');
 const { MessageEmbed } = require('discord.js');
 
 const cooldown = new Set();
 
 module.exports = {
-  name: "", 
-  alias: [""],
-  category: "Información",
-  usage: "Despliega un menú de ayuda para cada usuario.",
+  name: "", //Nombre del comando.
+  alias: [""], //Alias del comando, si hay muchos alias es ["hola", "hi"] sino hay alias dejarlo asi: [],
+  category: "", //Categoria del comando.
+  desc: "", //Descripción del comando.
+  usage: "", //Uso del comando.
+  userPerms: "", //Permisos del usuario necesarios.
+  botPerms: "", //Permisos del bot necesarios.
 
 execute (client, message, args){
 
     const cooldownem = new Discord.MessageEmbed()
-    .setDescription("<a:negativo:877943769083822111>┊**¡Calmate!** espera 3s para volver a usar este **comando.**")
+    .setDescription("<a:negativo:877943769083822111>┊**¡Cálmate!** espera 3s para volver a usar este **comando.**")
     .setColor("RED")
     
     if(cooldown.has(message.author.id)){
