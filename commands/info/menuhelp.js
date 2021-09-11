@@ -6,7 +6,7 @@ const prefixes = new db.crearDB("prefixes");
 const cooldown = new Set();
 
 module.exports = {
-  name: "menuhelp", 
+  name: "help", 
   alias: [],
   category: "Información",
   desc: "Despliega un menú de ayuda para cada usuario.",

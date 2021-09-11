@@ -12,16 +12,38 @@ module.exports = async (client, message) => {
     if(prefixes.tiene(message.guild.id)){
         prefix = await prefixes.obtener(message.guild.id)
     } else {
-        prefix ='p/'
+        prefix = 'p/'
     }
 
+    const prefijo = await prefixes.obtener(message.guild.id);
+
     const embedmencion = new MessageEmbed()
-    .setTitle(`¡Hola ${message.author.username}!`)
-    .setDescription(`Soy **Police star**, el bot oficial de Team Star. Mi prefix es \`p/\` y mi menu de ayuda: \`p/menuhelp\`.\nActualmente estoy en mantenimiento.\n**CEO/DIRECTOR**: Adrián#0001\n\n**Desarrolladores**: Yuzzwn#0001, luichi#0909, Dymidless#0001**`)
+
+    .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))
+    .setDescription(`<:bot:867179899655421952> Hey **${message.author.username}**! ¿Como estás? Soy **Police Star**, el bot oficial de Team Star. Mi prefix es \`${prefijo}\` y mi menú de ayuda es \`${prefijo}menuhelp\`.\n\n<:azul:878981722102984705>  Actualmente me encuentro en **mantenimiento.**\n<a:owner_gif:884105748051808277> **Dueño del bot:** \`Adrián#0571\`.\n:man_technologist: **Desarrolladores:** \`Dymidless#0001\` \`luichi#0909\` \`Yuzz.#1926\`\n\n<:police_star:855811485531242496> Si tienes alguna queja, duda o reporte respecto al servidor háblame al MD.`)
     .setTimestamp()
-    .setColor("RANDOM")
+    .setColor("BLURPLE")
+
    
     if(message.content.match(new RegExp(`^<@!?${client.user.id}>( |)$`))) {
+
+        if(cooldown.has(message.author.id)){
+            message.channel.send({
+                embeds: [{
+                    description: "<a:negativo:877943769083822111>┊**¡Cálmate!** espera 3s para volver a usar este **comando.**",
+                    color: "RED"
+                }]
+            })
+    
+           return;
+        }
+    
+        cooldown.add(message.author.id);
+    
+        setTimeout(() => {
+            cooldown.delete(message.author.id);
+        }, 3000);   
+
         message.channel.send({ embeds: [embedmencion] })
     }
    
@@ -36,20 +58,24 @@ module.exports = async (client, message) => {
     cmd.execute(client, message, args)
     }
 
+
     const embederr = new Discord.MessageEmbed()
-    .setDescription(`<a:negativo:877943769083822111>┊El comando **${command}** no es un comando **existente.**`)
+
+    .setDescription(`<a:negativo:877943769083822111>┊El comando **${command}** es un comando **existente.**`)
     .setColor("RED")
 
     const rco = new Discord.MessageEmbed()
+
     .setDescription("<a:negativo:877943769083822111>┊No escribas repetitivamente comandos **incorrectos.**")
     .setColor("RED")
+
     
     if(!cmd){
         
         if(cooldown.has(message.author.id)){
             message.channel.send({
                 embeds: [{
-                    description: "<a:negativo:877943769083822111>┊**¡Calmate!** espera 3s para volver a usar este **comando.**",
+                    description: "<a:negativo:877943769083822111>┊**¡Cálmate!** espera 3s para volver a usar este **comando.**",
                     color: "RED"
                 }]
             })

@@ -31,11 +31,11 @@ async execute (client, message, args){
 
     if(args[1]) return;
 
-     const user = message.mentions.users.first() || message.author;
+     const user = message.mentions.users.first() || message.guild.members.cache.get(args[0]) || message.author;
 
-     const avatar = new MessageEmbed()
-     .setAuthor(`Avatar  de ${message.author.tag}`)
-     .setImage(user.displayAvatarURL({ dynamic: true, size: 512 }))
+     const avatarembed = new MessageEmbed()
+     .setAuthor(`Avatar de ${user.tag}`)
+     .setImage(user.user.displayAvatarURL({ dynamic: true, size: 512 }))
      .setDescription(`>:frame_photo: Formato de imagen :frame_photo:\n[PNG](${user.avatarURL({format: "png"})})\n[JPG](${user.avatarURL({format: "jpg"})})\n[WEBP](${user.avatarURL({format: 'webp'})})\n`)
      .setFooter(`Pedido por: ${message.author.tag}`, `${message.author.displayAvatarURL({ dynamic: true })}`)
      .setColor("RANDOM")

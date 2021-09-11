@@ -13,7 +13,14 @@ module.exports = {
   category: "Utilidad",
   usage: "Sugiere cosas para el servidor.",
 
-async execute (client, message, args) {
+  /**
+   * @param {Discord.Client} client 
+   * @param {Discord.Message} message 
+   * @param {string[]} args 
+   * @param {Number} length 
+   */
+
+async execute (client, message, args, length) {
 
   const cooldownem = new Discord.MessageEmbed()
   .setDescription("<a:negativo:877943769083822111>┊**¡Calmate!** espera 3s para volver a usar este **comando.**")
@@ -50,16 +57,26 @@ async execute (client, message, args) {
   }
 
   message.delete()
+
+  function idSystem(length) {
+    if(!length) length = 4;
+    let ids = '0123456789';
+    let result = "";
+    for (var i = 0; i < length; i++) {
+      result += ids.charAt(Math.floor(Math.random() * ids.length));
+    }
+    return result
+  }
   
   const usuario = message.author;
 
   const embedsuggs = new Discord.MessageEmbed()
-  .setAuthor("Police Star | Team Star", "https://media.discordapp.net/attachments/848744297192751104/854834953434038302/b89c8fb332d74e787470e896fe1c73ee.png")
-  .addField("Sugerencias", `${args.join(' ')}`)
+  .setAuthor(`${message.author.tag}`, `${message.author.displayAvatarURL({ dynamic: true })}`)
+  .addField("Sugerencia", `${args.join(' ')}`)
   .setDescription("<:Global_Emojis:880858369966084126>┊¡Ha llegado una nueva **sugerencia!**")
   .setTimestamp()
   .setColor(("YELLOW"))
-  .setFooter(`Sugerencia enviada por: ${message.author.tag}`, usuario.displayAvatarURL({ dynamic: true }))
+  .setFooter(`ID de sugerencia: ${idSystem(4)}`)
 
   const canal = await canalsuggest.obtener(message.guild.id)
 

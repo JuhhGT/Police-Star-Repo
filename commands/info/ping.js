@@ -10,11 +10,14 @@ module.exports = {
   category: "Utilidad",
   usage: "Muestra el ping en MS del bot.",
 
-  data: new SlashCommandBuilder()
-  .setName("test")
-  .setDescription("Comando de slash ping"),
+  /**
+   * @param {Discord.Client} client 
+   * @param {Discord.Message} message 
+   * @param {string[]} args 
+   * @param {Discord.Interaction} interaction 
+   */
 
-execute (client, message, args, interaction) {
+async execute (client, message, args, interaction) {
 
   if(cooldown.has(message.author.id)){
     message.channel.send({
@@ -34,16 +37,24 @@ execute (client, message, args, interaction) {
         cooldown.delete(message.author.id);
     }, 3000);
 
-    const usuarioma = message.author;
+    let messageping = new Date() - message.createdAt
 
-    const ping = new Discord.MessageEmbed()
-    
-    .setAuthor("Police Star", 'https://cdn.discordapp.com/avatars/872207610747703377/5c9a8dce66ebb31e2a9bf3361dfa2c8f.png?size=1024')
-    .setDescription(`<a:comprendido:808108747997970481>┊Ping del bot: **${client.ws.ping}.**\n\n<a:comprendido:808108747997970481>┊Discord API: **${Date.now() - message.createdTimestamp}ms**`)
-    .setFooter(`Pedido por: ${message.author.tag}`, `${message.author.displayAvatarURL({ dynamic: true })}`)
+    const myping = new MessageEmbed()
+    .setAuthor("Police Star", client.user.displayAvatarURL({ format: "png" }))
+    .setDescription(`<:bot:867179899655421952>┊**Bot ping:** ${client.ws.ping}\n\n<:calidad_buena:883383584075968552>┊**API Ping:** ${messageping}`)
     .setColor("GREEN")
+    .setTimestamp()
 
-    message.channel.send({ embeds: [ping] })
+    message.channel.send({
+      embeds: [{
+        description: "<:reloj:880835883182485534>┊Recolectando información...",
+        color: "#f1ff9f"
+      }]
+    }).then(msg => {
+      setTimeout(() => {
+        msg.edit({ embeds: [myping] })
+      }, 3000);
+    })
      
 }
 

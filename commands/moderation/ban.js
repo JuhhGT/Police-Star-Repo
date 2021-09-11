@@ -1,13 +1,22 @@
 const Discord = require('discord.js');
 const { MessageEmbed } = require('discord.js');
+const config = require()
 
 const cooldown = new Set();
 
 module.exports = {
   name: "ban", 
   alias: ["banear"],
-  category: "Información",
-  usage: "Despliega un menú de ayuda para cada usuario.",
+  category: "Moderación",
+  desc: "Banea a un usuario dentro o fuera del servidor.",
+  usage: "`<prefix>ban <usuario> [razón]`",
+  userPerms: "Banear miembros.",
+  botPerms: "Banear miembros",
+  /**
+   * @param {Discord.Client} client 
+   * @param {Discord.Message} message 
+   * @param {string[]} args 
+   */
 
 async execute (client, message, args){
 
@@ -29,50 +38,111 @@ async execute (client, message, args){
         cooldown.delete(message.author.id);
     }, 3000);
 
-    let usuario = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(m => m.user.username.toLowerCase() == args[0]) || await client.users.fetch(args[0])
-    if(!usuario){
-        message.channel.send({
+    const permsrol = message.member.roles.cache.has(['878044578127679498', '880595484010483794']) //Porque hasta el momento puse que requeria de el rol Testers e Invitados.
+    if(!permsrol){
+        return message.channel.send({
             embeds: [{
-              description: "<a:negativo:877943769083822111>┊Debes de **mencionar** a un usuario.",
+              description: "<a:negativo:877943769083822111>┊No tienes permiso para usar este **comando.**",
               color: "RED"
             }]
           })
-    
-           return;
-           
         }
+
+    const permsbot = message.guild.me.permissions.has("BAN_MEMBERS")
+    if(!permsbot){
+      return message.channel.send({
+        embeds: [{
+          description: "<a:negativo:877943769083822111>┊No tienes permiso de usar este **comando.**",
+          color: "RED"
+        }]
+      })
+    }    
+
+    if(args[2]) return;
+
+    let usuario = message.mentions.members.first() || await client.users.fetch(args[0]) || message.guild.members.cache.get(args[0])
+    if(!usuario){
+        return message.channel.send({
+            embeds: [{
+              description: "<a:negativo:877943769083822111>┊Debes mencionar a un **usuario.**",
+              color: "RED"
+            }]
+          })           
+        }
+
+    if(!usuario.bannable){
+      return message.channel.send({
+        embeds: [{
+          description: "<a:negativo:877943769083822111>┊No fue posible **banear** a esta persona."
+        }]
+      })
+    }    
+
+    if(usuario.id === message.author.id){
+      return message.channel.send({
+        embeds: [{
+          description: "<a:negativo:877943769083822111>┊No puedes **banearte** a ti mismo.",
+          color: "RED"
+        }]
+      })
+    }
+    
+    if(usuario.id === client.user.id){
+      return message.channel.send({
+        embeds: [{
+          description: "<a:negativo:877943769083822111>┊No puedo **banearme** a mi mismo.",
+          color: "RED"
+        }]
+      })
+    }
+
+    if(usuario.roles.highest.comparePositionTo(message.member.roles.highest) > 0){
+      return message.channel.send({
+        embeds: [{
+          description: "<a:negativo:877943769083822111>┊No puedes **banear** a alguien de mayor o igual poder que tu.",
+          color: "RED"
+        }]
+      })
+    }
     
     var razon = args.slice(1).join(' ')
     if(!razon){
         razon = 'No especificada.'
     }
 
-    const permsrol = message.member.roles.cache.has('806239706785775677') || message.member.roles.cache.has('806239705703120937') || message.member.roles.cache.has('878044578127679498') || message.member.roles.cache.has('878044578127679498')
-    if(!permsrol){
-        message.channel.send({
-            embeds: [{
-              description: "<a:negativo:877943769083822111>┊No tienes los suficientes permisos para usar este comando.",
-              color: "RED"
-            }]
-          })
-    
-           return;
-           
-        }
+    const banembed = new MessageEmbed()
+    .setDescription(`<:ban:880826676211245107>┊El usuario \`${usuario.tag}\` ha sido baneado **correctamente.**`)
+    .setColor("#a2a2ff")
+    .setAuthor(client.user.username, client.user.displayAvatarURL({ dynamic: true }))
+    .setField("Razón", `${razon}`)
+    .setField("Moderador", `${message.author.tag}`)
+    .setTimestamp()
+    .setFooter(message.guild.name, message.guild.iconURL({ dynamic: true }))
 
-    usuario.ban({ reason: razon });
+    const embeduser = new MessageEmbed()
+    .setDescription(`<:ban:880826676211245107>┊El usuario \`${usuario.tag}\` ha sido baneado **correctamente.**`)
+    .setColor("#a2a2ff")
+    .setAuthor(client.user.username, client.user.displayAvatarURL({ dynamic: true }))
+    .setField("Razón", `${razon}`)
+    .setField("Moderador", `${message.author.tag}`)
+    .setTimestamp()
+    .setFooter(message.guild.name, message.guild.iconURL({ dynamic: true }))
 
-    const banembed = new Discord.MessageEmbed()
-    
-    .setAuthor("Sanción", `${message.author.displayAvatarURL({ dynamic: true })}`)
-    .addField("Tipo:", `Ban`)
-    .addField("Infractor:", `${mencionado.user.tag}`)
-    .addField("Razón:", `${razon}`)
-    .addField("Moderador:", `${message.author.tag}`)
-    .setColor("RED")
+    usuario.ban({ reason: razon }).catch((e) => message.channel.send({
+      embeds: [{
+        description: "<a:negativo:877943769083822111>┊Ha ocurrido un error **desconocido.**",
+        color: "RED"
+      }]
+    })).then(() => message.channel.send({ embeds: [banembed] })).then(msg => {
+      setTimeout(() => {
+        msg.delete()
+      }, 3000);
+    })
 
-    message.channel.send({ embeds: [banembed] })
+    await usuario.send({
+      embeds: [embeduser]
+    })
 
  }
 
-} 
+}

@@ -7,13 +7,16 @@ module.exports = {
   name: "user-info", 
   alias: ["info-usuario"], 
   category: "Utilidad",
-  usage: "Muestra la informacion de cada usuario.",
+  desc: "Muestra la información de un usuario.",
+  usage: "`<prefix>user-info [usuario]`.",
+  userPerms: "",
 
   /**
    * @param {Discord.Client} client 
    * @param {Discord.Message} message 
    * @param {string[]} args 
    */
+
 
 async execute (client, message, args) {
 

@@ -23,6 +23,9 @@ const adminFiles = fs.readdirSync('./commands/admin').filter(file => file.endsWi
 const suggestFiles = fs.readdirSync('./commands/admin/suggestions').filter(file => file.endsWith('.js'));
 
 const privateFiles = fs.readdirSync('./commands/private').filter(file => file.endsWith('.js'));
+//////////////////////SlashCommands-1///////////////////////////////////////
+client.slashcommand = new Discord.Collection();
+const slashFiles = fs.readdirSync('./slashcmd').filter(file => file.endsWith('.js'));
 ////////////////////////Handler-2/////////////////////////////
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
@@ -57,6 +60,12 @@ for (const file of suggestFiles) {
 for (const file of privateFiles) {
     const command = require(`./commands/private/${file}`);
     client.commands.set(command.name, command);
+}
+/////////////////////SlashCommands-2/////////////////////////////////////
+for (const cfs of slashFiles){
+    const command = require(`./slashcmd/${cfs}`)
+    console.log(`-> ¡${cfs} Cargado completamente!`)
+    client.slashcommand.set(command.data.name, command)
 }
 //////////////////////Handler-Eventos////////////////////////////////////
 for (const file of fs.readdirSync('./events/')) {
