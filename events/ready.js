@@ -6,11 +6,11 @@ module.exports = (client) => {
 
      client.user.setPresence({
           activities: [{
-            name: 'MD para quejas, dudas y reportes.',
+            name: 'MD para quejas, dudas y reportes. | p/menuhelp',
             type: 'WATCHING'
           }]
         });
      
-    console.log(chalk.green('Police Star ready.'))
+    console.log(chalk.blue('Police Star ready.'))
 
 } 

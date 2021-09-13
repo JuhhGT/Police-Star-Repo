@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 const { MessageEmbed } = require('discord.js');
+const db = require('megadb');
+const prefixes = new db.crearDB('prefixes');
 
 const cooldown = new Set();
 
@@ -33,19 +35,32 @@ async execute (client, message, args){
         cooldown.delete(message.author.id);
     }, 3000);
 
+    const prefix = await prefixes.obtener(message.guild.id)
+
     const data = []
 
     const name = args[0]
+    if(!name){
+        return message.channel.send({
+            embeds: [{
+                description: `<a:negativo:877943769083822111>┊Debes escribir un **comando.**\nEscribe \`${prefix}menuhelp\` para ver el menú de ayuda.`,
+                color: "RED"
+            }]
+        })
+    }
     const Command = client.commands.get(name) || client.commands.find(x => x.alias && x.alias.includes(name));
     if(!Command){
         return message.channel.send({
-            content: "<a:negativo:877943769083822111>┊El comando escrito no **existe.**"
+            embeds: [{
+                description: "<a:negativo:877943769083822111>┊El comando escrito no **existe.**",
+                color: "RED"
+            }]
         })
     }
 
     const embedito = new Discord.MessageEmbed()
     .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))
-    .setDescription("Apartado de ayuda sobre **comandos,** escribe `p/help <Comando>`.")
+    .setDescription(`Información de **${name},** escribe \`${prefix}help <Comando>\`.`)
     .setFooter("Ayuda de Police Star", client.user.displayAvatarURL({ format: "png" }))
     .setTimestamp()
     .setColor("#c1a7ff")

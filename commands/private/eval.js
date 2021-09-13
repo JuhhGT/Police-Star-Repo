@@ -79,7 +79,7 @@ execute (client, message, args){
   
       .setColor("RED")
       .addField(`Entrada`, `\`\`\`js\n${command}\`\`\``)
-      .addField(`Error`, `\`\`\`js\n${error}\`\`\``)
+      .addField(`<a:negativo:877943769083822111> Error`, `\`\`\`js\n${error}\`\`\``)
   
       message.channel.send({embeds: [embedfallo]})
     }

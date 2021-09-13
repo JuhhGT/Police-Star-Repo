@@ -83,7 +83,7 @@ async execute (client, message, args) {
 
      message.channel.bulkDelete(args[0]).then(mensaje => {
           let embed = new MessageEmbed()
-          .setDescription(`<a:afirmativo:877943896947191819>┊Se han borrado **${args[0]}** mensajes correctamente.`)
+          .setDescription(`<a:afirmativo:877943896947191819>┊Se han borrado **${args[0]} mensajes** correctamente.`)
           .setColor("GREEN")
           .setTimestamp()
           .setFooter(`${message.author.tag}`, `${message.author.displayAvatarURL({ dynamic: true })}`)

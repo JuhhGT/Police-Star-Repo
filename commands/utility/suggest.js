@@ -11,7 +11,10 @@ module.exports = {
   name: "sugerir", 
   alias: ["suggest"], 
   category: "Utilidad",
+  desc: "Sugiere algo para el servidor (cualquier mal uso de este comando puede ser sancionable).",
   usage: "Sugiere cosas para el servidor.",
+  userPerms: "",
+  botPerms: "",
 
   /**
    * @param {Discord.Client} client 

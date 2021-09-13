@@ -6,7 +6,7 @@ const prefixes = new db.crearDB("prefixes");
 const cooldown = new Set();
 
 module.exports = {
-  name: "help", 
+  name: "menuhelp", 
   alias: [],
   category: "Información",
   desc: "Despliega un menú de ayuda para cada usuario.",
@@ -114,7 +114,7 @@ async execute (client, message, args){
 
   let todo = await message.channel.send({ embeds: [mainembed], components: [fila] })
   const filter = b => b.user.id === message.author.id;
-  const collector = todo.channel.createMessageComponentCollector({ filter, time: 300000 });
+  const collector = todo.channel.createMessageComponentCollector({ filter, time: 30000 });
 
   collector.on('collect', async b => {
     if(b.customId === 'Modbutton'){
@@ -131,12 +131,15 @@ async execute (client, message, args){
     }
   });
 
-  collector.on('end', (b) => {
+  collector.on('end', async (b) => {
     todo.edit({
       embeds: [{
         description: "<a:negativo:877943769083822111>┊Tiempo acabado, vuelve a usar el **comando.**",
         color: "RED"
-      }]
+      }], 
+
+      components: []
+
     })
   });
 

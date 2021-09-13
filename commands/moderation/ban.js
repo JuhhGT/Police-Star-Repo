@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const { MessageEmbed } = require('discord.js');
-const config = require()
+const db = require('megadb');
 
 const cooldown = new Set();
 
@@ -60,6 +60,18 @@ async execute (client, message, args){
 
     if(args[2]) return;
 
+    function idSystem(length) {
+      if(!length) length = 4;
+      let ids = '1029384756';
+      let result = "";
+      for (var i = 0; i < length; i++) {
+        result += ids.charAt(Math.floor(Math.random() * ids.length));
+      }
+      return result
+    }
+
+    const idbaneados = idSystem(4)
+
     let usuario = message.mentions.members.first() || await client.users.fetch(args[0]) || message.guild.members.cache.get(args[0])
     if(!usuario){
         return message.channel.send({
@@ -111,22 +123,20 @@ async execute (client, message, args){
     }
 
     const banembed = new MessageEmbed()
-    .setDescription(`<:ban:880826676211245107>┊El usuario \`${usuario.tag}\` ha sido baneado **correctamente.**`)
-    .setColor("#a2a2ff")
     .setAuthor(client.user.username, client.user.displayAvatarURL({ dynamic: true }))
-    .setField("Razón", `${razon}`)
-    .setField("Moderador", `${message.author.tag}`)
+    .setDescription(`<:ban:880826676211245107>┊El usuario \`${message.mentions.members.first().tag}\` ha sido baneado **correctamente.**`)
+    .addField("Razón", `${razon}`)
+    .addField("Moderador", `${message.author.tag}`)
+    .setFooter(`ID Sanción: ${idSystem(4)}`)
     .setTimestamp()
-    .setFooter(message.guild.name, message.guild.iconURL({ dynamic: true }))
+    .setColor("#a2a2ff")
 
     const embeduser = new MessageEmbed()
-    .setDescription(`<:ban:880826676211245107>┊El usuario \`${usuario.tag}\` ha sido baneado **correctamente.**`)
-    .setColor("#a2a2ff")
     .setAuthor(client.user.username, client.user.displayAvatarURL({ dynamic: true }))
-    .setField("Razón", `${razon}`)
-    .setField("Moderador", `${message.author.tag}`)
-    .setTimestamp()
+    .setDescription(`<:baneado:875731740981878796> Te han baneado del servidor ${message.guild.name}.\n\n**Tu sanción es permanente.**\n**Razón:** ${razon}`)
     .setFooter(message.guild.name, message.guild.iconURL({ dynamic: true }))
+    .setTimestamp()
+    .setColor("#c7f3ff")
 
     usuario.ban({ reason: razon }).catch((e) => message.channel.send({
       embeds: [{

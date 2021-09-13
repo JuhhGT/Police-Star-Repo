@@ -5,9 +5,18 @@ const cooldown = new Set();
 
 module.exports = {
   name: "avatar", 
-  alias: ["avatar"],
-  category: "Información",
-  usage: "Despliega un menú de ayuda para cada usuario.",
+  alias: ["av"],
+  category: "Utilidad",
+  desc: "Revisa el avatar de un usuario ya esté dentro o fuera del servidor.",
+  usage: "Despliega un menú de ayuda para cada usuario.", 
+  userPerms: "",
+  botPerms: "",
+
+  /**
+   * @param {Discord.Client} client 
+   * @param {Discord.Message} message 
+   * @param {string[]} args  
+   */
 
 async execute (client, message, args){
 
@@ -31,15 +40,18 @@ async execute (client, message, args){
 
     if(args[1]) return;
 
-     const user = message.mentions.users.first() || message.guild.members.cache.get(args[0]) || message.author;
+     const member = message.mentions.users.first() || await client.users.fetch(args[0]).catch(() => null) || message.author;
 
      const avatarembed = new MessageEmbed()
-     .setAuthor(`Avatar de ${user.tag}`)
-     .setImage(user.user.displayAvatarURL({ dynamic: true, size: 512 }))
-     .setDescription(`>:frame_photo: Formato de imagen :frame_photo:\n[PNG](${user.avatarURL({format: "png"})})\n[JPG](${user.avatarURL({format: "jpg"})})\n[WEBP](${user.avatarURL({format: 'webp'})})\n`)
-     .setFooter(`Pedido por: ${message.author.tag}`, `${message.author.displayAvatarURL({ dynamic: true })}`)
-     .setColor("RANDOM")
-     message.channel.send({ embeds: [avatar] })
+
+     .setAuthor(member.tag, member.avatarURL())   
+     .setDescription(`<:Archivo_Documento:880826677335302154> [PNG](${member.avatarURL({ format: "png" })}) ┊ <:Archivo_Documento:880826677335302154> [JPG](${member.avatarURL({ format: "jpg" })}) ┊ <:Archivo_Documento:880826677335302154> [WEPB](${member.avatarURL({ format: "webp" })})`)
+     .setImage(member.displayAvatarURL({ size: 1024, format: 'png', dynamic: true }))
+     .setFooter(member.id === message.member.id ? `Acá tu avatar ${member.username}` : `Avatar de ${member.username}`, member.displayAvatarURL())
+     .setColor("WHITE")
+     .setTimestamp()
+
+     message.channel.send({ embeds: [avatarembed] }) 
 
 
  }

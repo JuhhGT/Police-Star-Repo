@@ -48,6 +48,7 @@ async execute (client, message, args){
        }
 
     let userID = args[0];
+    
     if(!userID){
             message.channel.send({
                  embeds: [{
@@ -89,6 +90,28 @@ async execute (client, message, args){
                .setTimestamp()
                message.channel.send({ embeds: [unban] })
           }
+     })
+
+     const embuser = new MessageEmbed()
+     .setAuthor(client.user.username, client.user.displayAvatarURL({ dynamic: true }))
+     .setDescription(`<:baneado:875731740981878796> Te han baneado del servidor ${message.guild.name}.\n\n**Tu sanción es permanente.**\n**Razón:** ${razon}`)
+     .setFooter(message.guild.name, message.guild.iconURL({ dynamic: true }))
+     .setTimestamp()
+     .setColor("#c7f3ff")
+ 
+     usuario.ban({ reason: razon }).catch((e) => message.channel.send({
+       embeds: [{
+         description: "<a:negativo:877943769083822111>┊Ha ocurrido un error **desconocido.**",
+         color: "RED"
+       }]
+     })).then(() => message.channel.send({ embeds: [unban] })).then(msg => {
+       setTimeout(() => {
+         msg.delete()
+       }, 3000);
+     })
+ 
+     await usuario.send({
+       embeds: [embuser]
      })
    }
 } 

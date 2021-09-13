@@ -10,6 +10,7 @@ module.exports = {
   desc: "Muestra la información de un usuario.",
   usage: "`<prefix>user-info [usuario]`.",
   userPerms: "",
+  botPerms: "",
 
   /**
    * @param {Discord.Client} client 

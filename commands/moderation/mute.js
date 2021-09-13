@@ -55,6 +55,20 @@ async execute (client, message, args){
       return;
  }
 
+ if(args[2]) return;
+
+ function idSystem(length) {
+   if(!length) length = 4;
+   let ids = '1029384756';
+   let result = "";
+   for (var i = 0; i < length; i++) {
+     result += ids.charAt(Math.floor(Math.random() * ids.length));
+   }
+   return result
+ }
+
+ const idbaneados = idSystem(4)
+
   let mencionado = message.mentions.members.first() || message.guild.members.cache.get(args[0])
   if(!mencionado){
       message.channel.send({
@@ -97,17 +111,37 @@ async execute (client, message, args){
 
   mencionado.roles.add(rol)
 
-  const kickemb = new Discord.MessageEmbed();
-    new MessageEmbed()
-    .setAuthor("Sanción", `${message.author.displayAvatarURL({ dynamic: true })}`)
-    .addField("Tipo:", `Muted`)
-    .addField("Infractor", `${mencionado.user.tag}`)
-    .addField("Razón:", `${razon}`)
-    .addField("Moderador:", `${message.author.tag}`)
-    .setColor("RED")
-    .setTimestamp()
+  const mutemb = new Discord.MessageEmbed()
+  .setAuthor(client.user.username, client.user.displayAvatarURL({ dynamic: true }))
+  .setDescription(`<:ban:880826676211245107>┊El usuario \`${message.mentions.members.first().tag}\` ha sido muteado **correctamente.**`)
+  .addField("Razón", `${razon}`)
+  .addField("Moderador", `${message.author.tag}`)
+  .setFooter(`ID Sanción: ${idSystem(4)}`)
+  .setTimestamp()
+  .setColor("#a2a2ff")
+  message.channel.send({ embeds: [mutemb] }) 
 
-    message.channel.send({ embeds: [mutemb] }) 
+  const embuser = new MessageEmbed()
+  .setAuthor(client.user.username, client.user.displayAvatarURL({ dynamic: true }))
+  .setDescription(`<:baneado:875731740981878796> Te han muteado en el servidor ${message.guild.name}.\n\n**Tu sanción es permanente.**\n**Razón:** ${razon}`)
+  .setFooter(message.guild.name, message.guild.iconURL({ dynamic: true }))
+  .setTimestamp()
+  .setColor("#c7f3ff")
+
+  usuario.ban({ reason: razon }).catch((e) => message.channel.send({
+    embeds: [{
+      description: "<a:negativo:877943769083822111>┊Ha ocurrido un error **desconocido.**",
+      color: "RED"
+    }]
+  })).then(() => message.channel.send({ embeds: [mutemb] })).then(msg => {
+    setTimeout(() => {
+      msg.delete()
+    }, 3000);
+  })
+
+  await usuario.send({
+    embeds: [embuser]
+  })
  
  }
 

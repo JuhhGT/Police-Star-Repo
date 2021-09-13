@@ -40,6 +40,20 @@ async execute (client, message, args){
                 return;
   }
 
+  if(args[2]) return;
+
+  function idSystem(length) {
+    if(!length) length = 4;
+    let ids = '1029384756';
+    let result = "";
+    for (var i = 0; i < length; i++) {
+      result += ids.charAt(Math.floor(Math.random() * ids.length));
+    }
+    return result
+  }
+
+  const idkickeados = idSystem(4)
+
   if (!message.guild.me.permissions.has('KICK_MEMBERS')) {
         message.channel.send({
              embeds: [{
@@ -90,16 +104,37 @@ message.guild.member(user).kick(razon);
       razon = 'No especificada.'
   }
 
-     const kicemb = new Discord.MessageEmbed()
+  const kickemb = new MessageEmbed()
+    .setAuthor(client.user.username, client.user.displayAvatarURL({ dynamic: true }))
+    .setDescription(`<a:afirmativo:877943896947191819>┊El usuario \`${message.mentions.members.first().tag}\` ha sido kickeado **correctamente.**`)
+    .addField("Razón", `${razon}`)
+    .addField("Moderador", `${message.author.tag}`)
+    .setFooter(`ID Sanción: ${idSystem(4)}`)
+    .setTimestamp()
+    .setColor("#a2a2ff")
+     message.channel.send({ embeds: [kicemb] })
 
-     .setAuthor("Sanción", `${message.author.displayAvatarURL({ dynamic: true })}`)
-     .addField("Tipo:", `Kick`)
-     .addField("Infractor:", `${mencionado.user.tag}`)
-     .addField("Razón:", `${razon}`)
-     .addField("Moderador:", `${message.author.tag}`) //Cerraré el PC.
-     .setColor("RED")
-
-      message.channel.send({ embeds: [kicemb] })
+     const embuser = new MessageEmbed()
+     .setAuthor(client.user.username, client.user.displayAvatarURL({ dynamic: true }))
+     .setDescription(`<:martillo:879853908468576276>  Te han kickeado del servidor ${message.guild.name}.\n\n**Tu sanción es permanente.**\n**Razón:** ${razon}`)
+     .setFooter(message.guild.name, message.guild.iconURL({ dynamic: true }))
+     .setTimestamp()
+     .setColor("#c7f3ff")
+ 
+     usuario.ban({ reason: razon }).catch((e) => message.channel.send({
+       embeds: [{
+         description: "<a:negativo:877943769083822111>┊Ha ocurrido un error **desconocido.**",
+         color: "RED"
+       }]
+     })).then(() => message.channel.send({ embeds: [kickemb] })).then(msg => {
+       setTimeout(() => {
+         msg.delete()
+       }, 3000);
+     })
+ 
+     await usuario.send({
+       embeds: [embuser]
+     })
       
 
  }
