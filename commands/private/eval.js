@@ -64,6 +64,7 @@ execute (client, message, args){
             }]
         })
       }
+      
       const embed = new Discord.MessageEmbed()
   
       .setColor("GREEN")
@@ -81,7 +82,8 @@ execute (client, message, args){
       .addField(`Entrada`, `\`\`\`js\n${command}\`\`\``)
       .addField(`<a:negativo:877943769083822111> Error`, `\`\`\`js\n${error}\`\`\``)
   
-      message.channel.send({embeds: [embedfallo]})
+      message.channel.send({ embeds: [embedfallo ]})
+      
     }
   
    }
