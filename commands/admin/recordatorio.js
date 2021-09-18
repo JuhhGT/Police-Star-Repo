@@ -1,3 +1,4 @@
+const { time } = require('@discordjs/builders');
 const Discord = require('discord.js');
 const { MessageEmbed } = require('discord.js');
 const ms = require('ms');
@@ -58,47 +59,46 @@ execute (client, message, args){
     }
 
     let tiempo = args[0]
+    let tiempoConver = ms(tiempo)
     if(!tiempo){
         return message.channel.send({
             embeds: [{
-                description: "<a:negativo:877943769083822111>┊Debes agregar un **tiempo** (ms).",
+                description: "<a:negativo:877943769083822111>┊Debes ingresar un tiempo para el **recordatorio.**",
                 color: "RED"
             }]
         })
     }
 
-    let time = ms(tiempo)
-
-    let canal = message.mentions.channels.first() || message.channel;
-    let mensaje = args.slice(1).join(' ')
-    if(!mensaje){
+    const canal = args[1] || message.mentions.channels.first()
+    if(!canal){
         return message.channel.send({
             embeds: [{
-                description: "<a:negativo:877943769083822111>┊Debes escribir un mensaje a **recordar.**",
+                description: "<a:negativo:877943769083822111>┊Debes ingresar un **canal.**"
+            }]
+        })
+    }
+
+    let recordar = args.slice(2).join(' ')
+    if(!recordar){
+        return message.channel.send({
+            embeds: [{
+                description: "<a:negativo:877943769083822111>┊Debes ingresar algo para **recordar.**",
                 color: "RED"
             }]
         })
     }
+
+    const recordatorio = new MessageEmbed().setAuthor(client.user.username, client.user.displayAvatarURL({ format: "png" })).setDescription(`> **Recordatorio entrante:** ${recordar}`)
 
     message.channel.send({
         embeds: [{
-            description: "<a:afirmativo:877943896947191819>┊Tu recordatorio a sido guardado **exitosamente.**",
+            description: "<a:afirmativo:877943896947191819>┊¡Perfecto! Tu recordatorio ha sido **guardado** exitosamente.",
+            timestamp: Date.now(),
             color: "GREEN"
         }]
     })
-
-    const embed = new MessageEmbed()
-    .setTimestamp()
-    .setDescription(`**Recordatorio entrante:** ${mensaje}`)
-    .setColor("#d3ecff")
-    .setAuthor(client.user.username, client.user.displayAvatarURL({ format: "png" }))
-    .setFooter(`Recordatorio creado por ${message.author.tag}`, message.author.displayAvatarURL({ dynamic: true }))
-
-    setInterval(() => {
-        canal.send({
-            embeds: [embed]
-        })
-    }, time)
+    
+    message.channel.send(recordatorio2)
 
  }
 

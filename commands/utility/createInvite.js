@@ -24,7 +24,7 @@ async execute (client, message, args){
     .setDescription("<a:negativo:877943769083822111>┊**¡Cálmate!** espera 3s para volver a usar este **comando.**")
     .setColor("RED")
     
-    if(cooldown.has(message.author.id)){
+    if(cooldown.has(message.authorid)){
         message.channel.send({ embeds: [cooldownem] })
 
        return;
@@ -49,7 +49,7 @@ async execute (client, message, args){
     if(!invitacion){
         return message.channel.send({
             embeds: [{
-                description: "<a:negativo:877943769083822111>┊Ha ocurrido un error inesperado, verifica si tengo los permisos **necesarios.**",
+                description: "<a:negativo:877943769083822111>┊Ha ocurrido un error inesperado, vuelvelo a **intertar.**",
                 color: "RED"
             }]
         })

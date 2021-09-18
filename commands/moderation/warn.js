@@ -1,7 +1,10 @@
 const Discord = require('discord.js');
 const { MessageEmbed } = require('discord.js');
-const db = require('megadb')
-const warns = new db.crearDB('warns')
+const db = require('megadb');
+const { set } = require('quick.db');
+const advertencias = new db.crearDB('advertencias')
+
+const cooldown = new Set()
      
      
      module.exports = {
@@ -9,33 +12,31 @@ const warns = new db.crearDB('warns')
        alias: ["aviso"],
        category: "Moderación",
        usage: "",
+
+       /**
+        * @param {Discord.Client} client 
+        * @param {Discord.Message} message 
+        * @param {string[]} args 
+        */
      
      async execute (client, message, args){
      
+      const cooldownem = new Discord.MessageEmbed()
+      .setDescription("<a:negativo:877943769083822111>┊**¡Cálmate!** espera 3s para volver a usar este **comando.**")
+      .setColor("RED")
+      
       if(cooldown.has(message.author.id)){
-        message.channel.send({
-          embeds: [{
-            description: "<a:negativo:877943769083822111>┊**¡Cálmate!** espera 3s para volver a usar este **comando.**",
-            color: "RED"
-          }]
-        })
-    
+          message.channel.send({ embeds: [cooldownem] })
+  
          return;
-         
       }
-         
-         if(cooldown.has(message.author.id)){
-             message.channel.send({ embeds: [cooldownem] })
-     
-            return;
-         }
-     
-         cooldown.add(message.author.id);
-     
-         setTimeout(() => {
-             cooldown.delete(message.author.id);
-         }, 3000);
-         let mencionado = message.mentions.members.first()
+  
+      cooldown.add(message.author.id);
+  
+      setTimeout(() => {
+          cooldown.delete(message.author.id);
+      }, 3000);
+
          const permsrol = message.member.roles.cache.has('806239706785775677') || message.member.roles.cache.has('806239705703120937') || message.member.roles.cache.has('878044578127679498') || message.member.roles.cache.has('878044578127679498')
          if(!permsrol) {
             message.channel.send({
@@ -46,34 +47,36 @@ const warns = new db.crearDB('warns')
             })
             return;
        }
-       if (!message.guild.me.permissions.has('KICK_NEMBERS')) {
+
+       if (!message.guild.me.permissions.has('KICK_MEMBERS')) {
           message.channel.send({
                embeds: [{
-                    description: "<a:negativo:877943769083822111>┊No tengo permisos suficientes para usar este comando",
+                    description: "<a:negativo:877943769083822111>┊No tengo permisos suficientes para usar este **comando.**",
                     color: "RED"
                }]
           })
           return;
        }
-       let persona = message.mentions.users.first()
+
+       let persona = message.mentions.members.first() || message.guild.members.cache.get(args[0])
        if(!persona) {
-          message.channel.send({
+          return message.channel.send({
                embeds: [{
-                    description: "<a:negativo:877943769083822111>┊Debes mencionar el nombre de la persona que quieres **warnear.**",
+                    description: "<a:negativo:877943769083822111>┊Debes mencionar el nombre de la persona que quieres **advertir.**",
                     color: "RED"
                }]
           })
-          return;
        }
+
        if(persona == message.author) {
-          message.channel.send({
+          return message.channel.send({
                embeds: [{
-                    description: "<a:negativo:877943769083822111>┊No puedes **warnearte** a ti mismo.",
+                    description: "<a:negativo:877943769083822111>┊No puedes **advertirte** a ti mismo.",
                     color: "RED"
                }]
           })
-          return;
        }
+
        if(args[2]) return;
 
        function idSystem(length) {
@@ -86,26 +89,29 @@ const warns = new db.crearDB('warns')
          return result
        }
    
-       const idwarneados = idSystem(4)
+       const idAdvertidos = idSystem(4)
 
        var razon = args.slice(1).join(" ")
-       if(!razon) razon = 'No especificada'
+       if(!razon) razon = 'No especificada.'
 
-       if (!warns.tiene(`${message.guild.id}.${persona.id}`)) {
-        warns.establecer(`${message.guild.id}.${persona.id}`, { warns: 0})
+       if (!advertencias.tiene(`${message.guild.id}.${persona.id}`)) {
+        advertencias.establecer(`${message.guild.id}.${persona.id}`, 0)
       }
 
-      warns.sumar(`${message.guild.id}.${persona.id}.warns`, 1)
+      advertencias.sumar(`${message.guild.id}.${persona.id}`, 1)
 
       const warnemb = new Discord.MessageEmbed()
      .setAuthor(client.user.username, client.user.displayAvatarURL({ dynamic: true }))
-     .setDescription(`<a:afirmativo:877943896947191819>┊El usuario \`${message.mentions.members.first().tag}\` ha sido warneado **correctamente.**`)
+     .setDescription(`<a:afirmativo:877943896947191819>┊¡El usuario \`${persona.user.tag}\` ha sido **advertido!**`)
      .addField("Razón", `${razon}`)
      .addField("Moderador", `${message.author.tag}`)
      .setFooter(`ID Sanción: ${idSystem(4)}`)
      .setTimestamp()
      .setColor("#a2a2ff")
-      message.channel.send({ embeds: [warnemb] }) 
+
+     message.channel.send({
+       embeds: [warnemb]
+     })
 
       const embuser = new MessageEmbed()
       .setAuthor(client.user.username, client.user.displayAvatarURL({ dynamic: true }))
@@ -113,21 +119,19 @@ const warns = new db.crearDB('warns')
       .setFooter(message.guild.name, message.guild.iconURL({ dynamic: true }))
       .setTimestamp()
       .setColor("#c7f3ff")
-  
-      usuario.ban({ reason: razon }).catch((e) => message.channel.send({
-        embeds: [{
-          description: "<a:negativo:877943769083822111>┊Ha ocurrido un error **desconocido.**",
-          color: "RED"
-        }]
-      })).then(() => message.channel.send({ embeds: [warnemb] })).then(msg => {
-        setTimeout(() => {
-          msg.delete()
-        }, 3000);
-      })
-  
-      await usuario.send({
-        embeds: [embuser]
-      })
+
+      try {
+        await persona.send({
+          embeds: [embuser]
+        })
+      } catch (e) {
+        message.channel.send({
+          embeds: [{
+            description: "<a:negativo:877943769083822111>┊No se ha podido enviar un mensaje privado a la persona **advertida.**",
+            color: "RED"
+          }]
+        })
+      }
     }
      
-      }
+}

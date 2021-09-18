@@ -39,7 +39,7 @@ async execute (client, message, args, interaction) {
 
     let messageping = new Date() - message.createdAt
 
-    const myping = new MessageEmbed()
+    const botping = new MessageEmbed()
     .setAuthor("Police Star", client.user.displayAvatarURL({ format: "png" }))
     .setDescription(`<:bot:867179899655421952>┊**Bot ping:** ${client.ws.ping}\n\n<:calidad_buena:883383584075968552>┊**API Ping:** ${messageping}`)
     .setColor("GREEN")
@@ -52,7 +52,7 @@ async execute (client, message, args, interaction) {
       }]
     }).then(msg => {
       setTimeout(() => {
-        msg.edit({ embeds: [myping] })
+        msg.edit({ embeds: [botping] })
       }, 3000);
     })
      

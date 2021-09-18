@@ -35,15 +35,16 @@ async execute (client, message, args) {
           }, 3000);
 
      message.delete();
-     let perms = message.member.permissions.has("ADMINISTRATOR")
-     if(!perms){
-          return message.channel.send({
-               embeds: [{
-                    description: "<a:negativo:877943769083822111>┊No tienes permiso de usar este **comando.**",
-                    color: "RED"
-               }]
-          })
-     }
+     const permsrol = message.member.roles.cache.has('806239706785775677') || message.member.roles.cache.has('806239705703120937') || message.member.roles.cache.has('878044578127679498') || message.member.roles.cache.has('878044578127679498')
+     if(!permsrol){
+         message.channel.send({
+              embeds: [{
+                   description: "<a:negativo:877943769083822111>┊No tienes **permisos** para utilizar este comando.",
+                   color: "RED"
+              }]
+         })
+         return;
+    }
 
      if(!args[0]){
           return message.channel.send({

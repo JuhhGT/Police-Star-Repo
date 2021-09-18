@@ -37,7 +37,7 @@ async execute (client, message, args) {
          cooldown.delete(message.author.id);
      }, 3000);
 
-     let usuario = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
+     const usuario = message.mentions.users.first() || message.guild.members.cache.get(args[0]) || message.member;
 
      let estado;
      switch (usuario.presence.status){
@@ -82,24 +82,22 @@ async execute (client, message, args) {
      if(args[1]) return;
 
      const embedinfo = new MessageEmbed()
-
      .setAuthor(usuario.user.username, usuario.user.displayAvatarURL({ dynamic: true }))
-     .setDescription(`<:informacion:812066315040587776> | **Información de usuario.**`)
-     .addField("<:usuario:880826682599178260> **Nombre**", `${message.author.tag}`)
-     .addField("<:identificador:882375276837883905> **Identificador**", `${message.author.id}`)
+     .setDescription(`<:informacion:812066315040587776>┊**Información del usuario**`)
+     .addField("<:usuario:880826682599178260> **Nombre**", `${usuario.user.username}`)
+     .addField("<:identificador:882375276837883905> **Identificador**", `${usuario.user.id}`)
      .addField(`<:roles:882393604604174337> **Roles**`, usuario.roles.cache.map(role => role.toString()).join(", "))
      .addField(":thinking: **¿Apodo?**", usuario.nickname || "Sin apodo.")
-     .addField("<:boost_lvl8:880863123609907261> **¿Booster?**", usuario.premiumSince ? 'Si, boosteo. <a:afirmativo:877943896947191819>' : 'No, no boosteo. <a:negativo:877943769083822111>')
-     .addField(`${status2} **Estados**`, status)
-     .addField(`<:SI:867176571537588264> **Unión al servidor**`, formatDate('DD/MM/YYYY, A las HH:mm:ss', usuario.joinedAt))
-     .addField("<:discord_pensando:882400559271915600> **Unión a Discord**", formatDate('DD/MM/YYYY, A las HH:mm:ss', usuario.user.createdAt))
+     .addField("<a:nitro_boost_2:888089713691488266> **¿Mejoro?**", usuario.premiumSince ? 'Si, boosteo. <a:afirmativo:877943896947191819>' : 'No, no boosteo. <a:negativo:877943769083822111>')
+     .addField(`${status2} **Estado**`, status)
+     .addField(`<:SI:867176571537588264> **Unión al servidor**`, `<t:${Math.floor(usuario.joinedTimestamp / 1e3)}>`)
+     .addField("<:discord_pensando:882400559271915600> **Unión a Discord**", `<t:${Math.floor(usuario.user.createdTimestamp / 1e3)}>`)
      .setThumbnail(usuario.user.displayAvatarURL({ dynamic: 'true' }))
-     .setFooter(`Pedido por ${message.author.tag}`, usuario.user.displayAvatarURL())
+     .setFooter(`Pedido por ${message.author.tag}`, `${message.author.displayAvatarURL({ dynamic: true })}`)
      .setTimestamp()
      .setColor("WHITE")
-     
      await message.channel.send({ embeds: [embedinfo] })
-     
+    
 } 
 
 } 

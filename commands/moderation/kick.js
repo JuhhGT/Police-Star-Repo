@@ -29,7 +29,7 @@ async execute (client, message, args){
         }, 3000);
 
         const permsrol = message.member.roles.cache.has('806239706785775677') || message.member.roles.cache.has('806239705703120937') || message.member.roles.cache.has('878044578127679498') || message.member.roles.cache.has('878044578127679498')
-        let mencionado = message.mentions.members.first()
+        let usuario = message.mentions.members.first()
         if(!permsrol){
                 message.channel.send({
                      embeds: [{

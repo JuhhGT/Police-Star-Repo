@@ -61,10 +61,7 @@ execute (client, message, args){
           SEND_MESSAGES: false
         })
 
-        const canalbloq = new Discord.MessageEmbed()
-        .setTitle("Bloqueo de canal")
-        .setDescription("<a:afirmativo:877943896947191819>┊Canal bloqueado correctamente") 
-        message.channel.send({ embeds: canalbloq })
+
      
      } 
 

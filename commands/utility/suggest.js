@@ -26,7 +26,7 @@ module.exports = {
 async execute (client, message, args, length) {
 
   const cooldownem = new Discord.MessageEmbed()
-  .setDescription("<a:negativo:877943769083822111>┊**¡Calmate!** espera 3s para volver a usar este **comando.**")
+  .setDescription("<a:negativo:877943769083822111>┊**¡Cálmate!** espera 3s para volver a usar este **comando.**")
   .setColor("RED")
   
   if(cooldown.has(message.author.id)){
@@ -75,11 +75,11 @@ async execute (client, message, args, length) {
 
   const embedsuggs = new Discord.MessageEmbed()
   .setAuthor(`${message.author.tag}`, `${message.author.displayAvatarURL({ dynamic: true })}`)
-  .addField("Sugerencia", `${args.join(' ')}`)
   .setDescription("<:Global_Emojis:880858369966084126>┊¡Ha llegado una nueva **sugerencia!**")
+  .addField(`Sugerencia`, `${args.join(' ')}`)
+  .setFooter(`ID de sugerencia: ${idSystem(4)}`)
   .setTimestamp()
   .setColor(("YELLOW"))
-  .setFooter(`ID de sugerencia: ${idSystem(4)}`)
 
   const canal = await canalsuggest.obtener(message.guild.id)
 
@@ -87,7 +87,7 @@ async execute (client, message, args, length) {
     msg.react('<a:afirmativo:877943896947191819>')
     msg.react('<a:negativo:877943769083822111>')
     autor.establecer(msg.id, usuario.id)
-    sugerencia.establecer(msg.id, args.join(' '))
+    sugerencia.establecer(idSystem, args.join(' '))
   })
 
   message.channel.send({

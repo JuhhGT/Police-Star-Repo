@@ -47,7 +47,7 @@ async execute (client, message, args){
      .setAuthor(member.tag, member.avatarURL())   
      .setDescription(`<:Archivo_Documento:880826677335302154> [PNG](${member.avatarURL({ format: "png" })}) ┊ <:Archivo_Documento:880826677335302154> [JPG](${member.avatarURL({ format: "jpg" })}) ┊ <:Archivo_Documento:880826677335302154> [WEPB](${member.avatarURL({ format: "webp" })})`)
      .setImage(member.displayAvatarURL({ size: 1024, format: 'png', dynamic: true }))
-     .setFooter(member.id === message.member.id ? `Acá tu avatar ${member.username}` : `Avatar de ${member.username}`, member.displayAvatarURL())
+     .setFooter(member.id === message.member.id ? `Este es tu avatar ${member.username}` : `Avatar de ${member.username}`, member.displayAvatarURL())
      .setColor("WHITE")
      .setTimestamp()
 

@@ -1,8 +1,7 @@
 const Discord = require('discord.js');
 const { MessageEmbed } = require('discord.js');
 const db = require('megadb');
-
-const cooldown = new Set();
+const cooldown = new Set()
 
 module.exports = {
   name: "ban", 
@@ -38,15 +37,16 @@ async execute (client, message, args){
         cooldown.delete(message.author.id);
     }, 3000);
 
-    const permsrol = message.member.roles.cache.has(['878044578127679498', '880595484010483794']) //Porque hasta el momento puse que requeria de el rol Testers e Invitados.
+    const permsrol = message.member.roles.cache.has('806239706785775677') || message.member.roles.cache.has('806239705703120937') || message.member.roles.cache.has('878044578127679498') || message.member.roles.cache.has('878044578127679498')
     if(!permsrol){
-        return message.channel.send({
-            embeds: [{
-              description: "<a:negativo:877943769083822111>┊No tienes permiso para usar este **comando.**",
-              color: "RED"
-            }]
-          })
-        }
+        message.channel.send({
+             embeds: [{
+                  description: "<a:negativo:877943769083822111>┊No tienes **permisos** para utilizar este comando.",
+                  color: "RED"
+             }]
+        })
+        return;
+   }
 
     const permsbot = message.guild.me.permissions.has("BAN_MEMBERS")
     if(!permsbot){
@@ -138,6 +138,13 @@ async execute (client, message, args){
     .setTimestamp()
     .setColor("#c7f3ff")
 
+    if(message.author.bot) return message.channel.send({
+      embeds: [{
+        description: "<a:negativo:877943769083822111>┊No se ha podido enviar el MD al usuario",
+        color: "RED"
+      }]
+    })
+
     usuario.ban({ reason: razon }).catch((e) => message.channel.send({
       embeds: [{
         description: "<a:negativo:877943769083822111>┊Ha ocurrido un error **desconocido.**",
@@ -152,6 +159,8 @@ async execute (client, message, args){
     await usuario.send({
       embeds: [embeduser]
     })
+
+
 
  }
 
