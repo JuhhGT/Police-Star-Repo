@@ -50,7 +50,9 @@ async execute (client, message, args, length) {
     })
   }
 
-  if(!args.join(' ')){
+  const cosaSugerida = args.slice(0).join(' ');
+
+  if(!cosaSugerida){
     return message.channel.send({
       embeds: [[{
         description: "<a:negativo:877943769083822111>┊Debes escribir una **sugerencia.**",
@@ -70,6 +72,8 @@ async execute (client, message, args, length) {
     }
     return result
   }
+
+  const identificator = idSystem(4)
   
   const usuario = message.author;
 
@@ -77,7 +81,7 @@ async execute (client, message, args, length) {
   .setAuthor(`${message.author.tag}`, `${message.author.displayAvatarURL({ dynamic: true })}`)
   .setDescription("<:Global_Emojis:880858369966084126>┊¡Ha llegado una nueva **sugerencia!**")
   .addField(`Sugerencia`, `${args.join(' ')}`)
-  .setFooter(`ID de sugerencia: ${idSystem(4)}`)
+  .setFooter(`ID de sugerencia: ${identificator}`)
   .setTimestamp()
   .setColor(("YELLOW"))
 
@@ -87,7 +91,7 @@ async execute (client, message, args, length) {
     msg.react('<a:afirmativo:877943896947191819>')
     msg.react('<a:negativo:877943769083822111>')
     autor.establecer(msg.id, usuario.id)
-    sugerencia.establecer(idSystem, args.join(' '))
+    sugerencia.establecer(`${identificator}`, args.join(' '))
   })
 
   message.channel.send({

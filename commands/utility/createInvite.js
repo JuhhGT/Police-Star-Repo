@@ -4,7 +4,7 @@ const { MessageEmbed } = require('discord.js');
 const cooldown = new Set();
 
 module.exports = {
-  name: "createInvite", 
+  name: "createinvite", 
   alias: ["crear-inv"],
   category: "Utilidad.",
   desc: "Crea una invitación sin necesidad de crearla tú mismo.", 
@@ -45,7 +45,9 @@ async execute (client, message, args){
         })
     }
 
-    const invitacion = await message.channel.createInvite({ maxAge: 0, reason: `Invitación creada por ${message.author.tag}` }).catch(() => null);
+    const canal = message.mentions.channels.first() || message.channel;
+
+    const invitacion = await canal.createInvite({ maxAge: 0, reason: `Invitación creada por ${message.author.tag}` }).catch(() => null);
     if(!invitacion){
         return message.channel.send({
             embeds: [{
