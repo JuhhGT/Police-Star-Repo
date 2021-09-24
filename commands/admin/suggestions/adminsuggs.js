@@ -31,7 +31,7 @@ async execute (client, message, args){
         cooldown.delete(message.author.id);
     }, 3000);
 
-    const permsrol = message.member.roles.cache.has('806239706785775677') || message.member.roles.cache.has('806239705703120937') || message.member.roles.cache.has('878044578127679498') || message.member.roles.cache.has('878044578127679498')
+    const permisos = message.member.roles.cache.has('806239706785775677') || message.member.roles.cache.has('806239705703120937') || message.member.roles.cache.has('878044578127679498') || message.member.roles.cache.has('878044578127679498')
     if(!permisos){
         return message.channel.send({
             embeds: [{

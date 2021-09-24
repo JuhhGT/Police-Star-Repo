@@ -5,8 +5,13 @@ const prefixes = new db.crearDB("prefixes");
 
 const cooldown = new Set();
 
-module.exports = async (client, message) => {
+/**
+ * @param {Discord.Client} client 
+ * @param {Discord.Message} message 
+ */
 
+module.exports = async (client, message) => {
+    
     if(!message.guild) return;
     let prefix;
     if(prefixes.tiene(message.guild.id)){

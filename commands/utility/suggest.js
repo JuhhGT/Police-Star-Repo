@@ -87,19 +87,28 @@ async execute (client, message, args, length) {
 
   const canal = await canalsuggest.obtener(message.guild.id)
 
-  client.channels.cache.get(canal).send({embeds: [embedsuggs]}).then(msg => {
-    msg.react('<a:afirmativo:877943896947191819>')
-    msg.react('<a:negativo:877943769083822111>')
-    autor.establecer(msg.id, usuario.id)
-    sugerencia.establecer(`${identificator}`, args.join(' '))
-  })
-
-  message.channel.send({
-    embeds: [{
-      description: "<a:afirmativo:877943896947191819>┊Tu sugerencia ha sido enviada **exitosamente.**",
-      color: "GREEN"
-    }]
-  })
+  try {
+    client.channels.cache.get(canal).send({embeds: [embedsuggs]}).then(msg => {
+      msg.react('<a:afirmativo:877943896947191819>')
+      msg.react('<a:negativo:877943769083822111>')
+      autor.establecer(msg.id, usuario.id)
+      sugerencia.establecer(`${identificator}`, args.join(' '))
+    })
+  
+    message.channel.send({
+      embeds: [{
+        description: "<a:afirmativo:877943896947191819>┊Tu sugerencia ha sido enviada **exitosamente.**",
+        color: "GREEN"
+      }]
+    })
+  } catch (e) {
+    message.channel.send({
+      embeds: [{
+        description: "<a:negativo:877943769083822111>┊Ha ocurrido un error al enviar la sugerencia, pudo ser porque el canal no ha sido **encontrado.**",
+        color: "RED"
+      }]
+    })
+  }
     
 }
 

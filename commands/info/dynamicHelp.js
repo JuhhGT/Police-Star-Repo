@@ -45,7 +45,7 @@ async execute (client, message, args){
         const mainembed = new Discord.MessageEmbed()
         
         .setTitle("Menú principal de ayuda de Police Star")
-        .setDescription(`<:naturaleza:880835881173393408>┊Bienvenido al apartado de ayuda principal de **Police Star**. Si quieres información de un comando en especifico escribe: \`${prefix}help <Comando>\`. En estos momentos estoy en mantenimiento pero para avanzar a los menús de soporte de cada sección dale click a los botones:`)
+        .setDescription(`<:naturaleza:880835881173393408>┊Bienvenido al apartado de ayuda principal de **Police Star**. Si quieres información de un comando en especifico escribe: \`p/help <Comando>\`. En estos momentos estoy en mantenimiento pero para avanzar a los menús de soporte de cada sección dale click a los botones:`)
         .addField("<:informacion:812066315040587776>  Información", "Mira la lista de comandos sobre la informacion útil del bot.")
         .addField("<:martillo:879853908468576276>  Moderación", "Dale un vistazo a algunos comandos de moderación.")
         .addField("<:carpetas_del_servidor:880861378594865154>  Utilidad", "Mira los comandos útiles del bot, ya sea con algunos de mini-diversión.")
