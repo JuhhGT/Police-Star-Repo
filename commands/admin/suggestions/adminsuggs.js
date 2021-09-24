@@ -51,7 +51,7 @@ async execute (client, message, args){
         })
     }
 
-    const mensaje = args[1]
+    const mensaje = args[1] || await sugerencia.obtener()
     if(!mensaje){
         return message.channel.send({
             embeds: [{
