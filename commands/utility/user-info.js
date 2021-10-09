@@ -37,8 +37,7 @@ async execute (client, message, args) {
          cooldown.delete(message.author.id);
      }, 3000);
 
-     const usuario = message.mentions.users.first() || message.guild.members.cache.get(args[0]) || message.member;
-
+     const usuario = message.mentions.users.first() || message.guild.members.cache.get(args[0]) || message.member
      let estado;
      switch (usuario.presence.status){
        case "online":
@@ -88,7 +87,7 @@ async execute (client, message, args) {
      .addField("<:identificador:882375276837883905> **Identificador**", `${usuario.user.id}`)
      .addField(`<:roles:882393604604174337> **Roles**`, usuario.roles.cache.map(role => role.toString()).join(", "))
      .addField(":thinking: **¿Apodo?**", usuario.nickname || "Sin apodo.")
-     .addField("<a:nitro_boost_2:888089713691488266> **¿Mejoro?**", usuario.premiumSince ? 'Si, boosteo. <a:afirmativo:877943896947191819>' : 'No, no boosteo. <a:negativo:877943769083822111>')
+     .addField("<a:nitro_boost_2:888089713691488266 **¿Mejoro?**", usuario.premiumSince ? 'Si, boosteo. <a:afirmativo:877943896947191819>' : 'No, no boosteo. <a:negativo:877943769083822111>')
      .addField(`${status2} **Estado**`, status)
      .addField(`<:SI:867176571537588264> **Unión al servidor**`, `<t:${Math.floor(usuario.joinedTimestamp / 1e3)}>`)
      .addField("<:discord_pensando:882400559271915600> **Unión a Discord**", `<t:${Math.floor(usuario.user.createdTimestamp / 1e3)}>`)
